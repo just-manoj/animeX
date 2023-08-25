@@ -1,11 +1,13 @@
 import { View, StyleSheet } from "react-native";
 
 import Header from "../components/main/Header";
+import Banner from "../components/main/Banner";
 
 const Main = () => {
   return (
     <View style={styles.container}>
       <Header />
+      <Banner />
     </View>
   );
 };
