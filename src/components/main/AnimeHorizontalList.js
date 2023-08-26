@@ -5,16 +5,24 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import AnimeCover from "../common/AnimeCover";
+import AnimeCoverImage from "../common/AnimeCoverImage";
 
 const AnimeHorizontalList = (props) => {
   const { animeCategory, animeList } = props;
+  const navigation = useNavigation();
+
+  const goToCategoryScreen = () => {
+    navigation.navigate("CategorywiseAnime", {
+      category: animeCategory,
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.categoryContainer}>
         <Text style={styles.categoryTitle}>{animeCategory}</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={goToCategoryScreen}>
           <Text style={styles.seeAll}>See All</Text>
         </TouchableOpacity>
       </View>
@@ -22,7 +30,10 @@ const AnimeHorizontalList = (props) => {
         data={animeList}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <AnimeCover coverUrl={item.coverImgUrl} animeName={item.animeName} />
+          <AnimeCoverImage
+            coverUrl={item.coverImgUrl}
+            animeName={item.animeName}
+          />
         )}
         showsHorizontalScrollIndicator={false}
         horizontal

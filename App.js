@@ -14,6 +14,7 @@ const App = () => {
     sfPro: require("./assets/fonts/SFPro-Regular.otf"),
     cilokThere: require("./assets/fonts/Cilok-There.otf"),
     cheria: require("./assets/fonts/Cheria-DEMO.otf"),
+    capriola: require("./assets/fonts/Capriola-Regular.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {

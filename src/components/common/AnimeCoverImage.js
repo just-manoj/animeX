@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 
-const AnimeCover = (props) => {
-  const { animeName, coverUrl } = props || {};
+const AnimeCoverImage = (props) => {
+  const { animeName, coverUrl, VerticalStyle } = props || {};
 
   return (
-    <View style={styles.coverContainer}>
+    <View style={[styles.coverContainer, VerticalStyle]}>
       <Image source={coverUrl} style={styles.coverImage} />
       <Text style={styles.animeName} numberOfLines={1}>
         {animeName}
@@ -14,7 +14,7 @@ const AnimeCover = (props) => {
   );
 };
 
-export default AnimeCover;
+export default AnimeCoverImage;
 
 const styles = StyleSheet.create({
   coverContainer: {
