@@ -14,18 +14,10 @@ const Banner = () => {
         ]}
         localImg
         autoPlay
-        previewImageStyle={{ height: 100 }}
-        caroselImageStyle={{ height: 125 }}
-        caroselImageContainerStyle={{ height: 165 }}
-        activeIndicatorStyle={{
-          backgroundColor: "#249d9d",
-          height: 9,
-          width: 9,
-        }}
-        inActiveIndicatorStyle={{
-          height: 7,
-          width: 7,
-        }}
+        caroselImageStyle={{ height: 155 }}
+        caroselImageContainerStyle={{ height: "auto" }}
+        activeIndicatorStyle={styles.activeIndicatorStyle}
+        inActiveIndicatorStyle={styles.inActiveIndicatorStyle}
         preview={false}
       />
     </View>
@@ -34,4 +26,14 @@ const Banner = () => {
 
 export default Banner;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  activeIndicatorStyle: {
+    backgroundColor: "#249d9d",
+    height: 9,
+    width: 9,
+  },
+  inActiveIndicatorStyle: {
+    height: 7,
+    width: 7,
+  },
+});

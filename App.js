@@ -12,6 +12,8 @@ const App = () => {
   const [fontsLoaded] = useFonts({
     PoetsenOne: require("./assets/fonts/PoetsenOne-Regular.ttf"),
     sfPro: require("./assets/fonts/SFPro-Regular.otf"),
+    cilokThere: require("./assets/fonts/Cilok-There.otf"),
+    cheria: require("./assets/fonts/Cheria-DEMO.otf"),
   });
 
   const onLayoutRootView = useCallback(async () => {

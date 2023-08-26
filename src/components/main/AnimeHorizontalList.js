@@ -1,0 +1,59 @@
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
+
+import AnimeCover from "../common/AnimeCover";
+
+const AnimeHorizontalList = (props) => {
+  const { animeCategory, animeList } = props;
+  return (
+    <View style={styles.container}>
+      <View style={styles.categoryContainer}>
+        <Text style={styles.categoryTitle}>{animeCategory}</Text>
+        <TouchableOpacity>
+          <Text style={styles.seeAll}>See All</Text>
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={animeList}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <AnimeCover coverUrl={item.coverImgUrl} animeName={item.animeName} />
+        )}
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        style={styles.AnimeCoverList}
+      />
+    </View>
+  );
+};
+
+export default AnimeHorizontalList;
+
+const styles = StyleSheet.create({
+  container: {
+    marginVertical: 5,
+  },
+  categoryContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  categoryTitle: {
+    fontSize: 17,
+    color: "#46d1ed",
+    fontFamily: "cilokThere",
+  },
+  seeAll: {
+    fontSize: 15,
+    color: "#ffffff",
+    fontFamily: "PoetsenOne",
+  },
+  AnimeCoverList: {
+    marginTop: 7,
+  },
+});
