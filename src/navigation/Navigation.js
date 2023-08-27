@@ -4,7 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Main from "../screens/Main";
 import CategorywiseAnime from "../screens/CategorywiseAnime";
 import AnimeSeason from "../screens/AnimeSeason";
-import AnimeEpisode from "../screens/AnimeEpisode";
+import AnimeEpisodes from "../screens/AnimeEpisodes";
+import AnimePlayer from "../screens/AnimePlayer";
 
 const navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -18,7 +19,8 @@ const navigation = () => {
         <Stack.Screen name="main" component={Main} />
         <Stack.Screen name="CategorywiseAnime" component={CategorywiseAnime} />
         <Stack.Screen name="AnimeSeason" component={AnimeSeason} />
-        <Stack.Screen name="AnimeEpisode" component={AnimeEpisode} />
+        <Stack.Screen name="AnimeEpisodes" component={AnimeEpisodes} />
+        <Stack.Screen name="AnimePlayer" component={AnimePlayer} />
       </Stack.Navigator>
     </NavigationContainer>
   );

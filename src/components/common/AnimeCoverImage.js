@@ -1,16 +1,28 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
 import React from "react";
 
 const AnimeCoverImage = (props) => {
   const { animeName, coverUrl, VerticalStyle } = props || {};
+  const navigation = useNavigation();
+
+  const goToSeasonsScreen = () => {
+    navigation.navigate("AnimeSeason", {
+      animeName: animeName,
+    });
+  };
 
   return (
-    <View style={[styles.coverContainer, VerticalStyle]}>
+    <TouchableOpacity
+      style={[styles.coverContainer, VerticalStyle]}
+      onPress={goToSeasonsScreen}
+    >
       <Image source={coverUrl} style={styles.coverImage} />
       <Text style={styles.animeName} numberOfLines={1}>
         {animeName}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
