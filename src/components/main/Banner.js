@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { ImageSlider } from "@pembajak/react-native-image-slider-banner";
 
 const Banner = () => {
@@ -19,6 +19,7 @@ const Banner = () => {
         activeIndicatorStyle={styles.activeIndicatorStyle}
         inActiveIndicatorStyle={styles.inActiveIndicatorStyle}
         preview={false}
+        indicatorMainContainerStyle={{ bottom: 0 }}
       />
     </View>
   );
