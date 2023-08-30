@@ -6,6 +6,7 @@ import CategorywiseAnime from "../screens/CategorywiseAnime";
 import AnimeSeason from "../screens/AnimeSeason";
 import AnimeEpisodes from "../screens/AnimeEpisodes";
 import AnimePlayer from "../screens/AnimePlayer";
+import Authentication from "../screens/Authentication";
 
 const navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -16,6 +17,7 @@ const navigation = () => {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="Authentication" component={Authentication} />
         <Stack.Screen name="main" component={Main} />
         <Stack.Screen name="CategorywiseAnime" component={CategorywiseAnime} />
         <Stack.Screen name="AnimeSeason" component={AnimeSeason} />

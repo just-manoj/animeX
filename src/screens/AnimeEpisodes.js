@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 
 import { AnimeEpisode } from "../model/Anime";
 import EpisodeDetails from "../components/AnimeEpisodes/EpisodeDetails";
+import { container } from "../styles/styles";
 
 const AnimeEpisodes = ({ route, navigation }) => {
   const { animeName } = route.params || {};
@@ -98,7 +99,7 @@ const AnimeEpisodes = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <View style={styles.headerContainer}>
         <Text style={styles.animeTitle}>{episodeList.animeName}</Text>
         <Text style={styles.season}>Season {episodeList.noOfSeason}</Text>

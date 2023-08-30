@@ -1,9 +1,10 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, BackHandler } from "react-native";
 import React, { useEffect } from "react";
 import { Video, ResizeMode } from "expo-av";
 import * as ScreenOrientation from "expo-screen-orientation";
-import { BackHandler } from "react-native";
 import { StatusBar } from "expo-status-bar";
+
+import { container } from "../styles/styles";
 
 const AnimePlayer = ({ navigation }) => {
   const videoRef = React.useRef(null);
@@ -15,7 +16,7 @@ const AnimePlayer = ({ navigation }) => {
   };
 
   const changeOriginalOrientation = async () => {
-    navigation.navigate("AnimeEpisodes");
+    navigation.goBack();
     await ScreenOrientation.lockAsync(
       ScreenOrientation.OrientationLock.PORTRAIT
     );
@@ -26,12 +27,6 @@ const AnimePlayer = ({ navigation }) => {
       "hardwareBackPress",
       changeOriginalOrientation
     );
-    // return () => {
-    //   BackHandler.removeEventListener(
-    //     "hardwareBackPress",
-    //     changeOriginalOrientation
-    //   );
-    // };
   }, []);
 
   useEffect(() => {
@@ -39,7 +34,7 @@ const AnimePlayer = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <StatusBar hidden />
       <Video
         ref={videoRef}
@@ -56,13 +51,6 @@ const AnimePlayer = ({ navigation }) => {
 export default AnimePlayer;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "#080808",
-    paddingBottom: 10,
-  },
   video: {
     flex: 1,
     height: "100%",

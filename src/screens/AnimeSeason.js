@@ -8,6 +8,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 
 import { AnimeSeasonEpisodes } from "../model/Anime";
+import { container } from "../styles/styles";
 
 const SeasonCover = (props) => {
   const { noOfEpisode, noOfSeason } = props;
@@ -39,7 +40,7 @@ const AnimeSeason = ({ route }) => {
     (ep, index) => new AnimeSeasonEpisodes(index + 1, ep)
   );
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <Text style={styles.animeTitle}>{animeName}</Text>
       <FlatList
         data={totalSeasons}
@@ -59,12 +60,6 @@ const AnimeSeason = ({ route }) => {
 export default AnimeSeason;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "#080808",
-  },
   animeTitle: {
     fontSize: 20,
     color: "#4790f0",

@@ -4,6 +4,7 @@ import AnimeCoverImage from "../components/common/AnimeCoverImage";
 
 import { AnimeCover } from "../model/Anime";
 import CategorywiseHeader from "../components/common/CategorywiseHeader";
+import { container } from "../styles/styles";
 
 const SampleAnimeCover = [
   {
@@ -200,7 +201,7 @@ const CategorywiseAnime = ({ route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <CategorywiseHeader
         animeCategory={category}
         searchInputData={searchInputData}
@@ -228,12 +229,6 @@ const CategorywiseAnime = ({ route }) => {
 export default CategorywiseAnime;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "#080808",
-  },
   AnimeCoverList: {
     marginTop: 10,
   },

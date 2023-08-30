@@ -4,6 +4,7 @@ import Header from "../components/main/Header";
 import Banner from "../components/main/Banner";
 import { AnimeCover } from "../model/Anime";
 import AnimeHorizontalList from "../components/main/AnimeHorizontalList";
+import { container } from "../styles/styles";
 
 const Main = () => {
   const SampleAnimeCover = [
@@ -173,7 +174,7 @@ const Main = () => {
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <Header />
       <FlatList
         data={SampleAnimeCover}
@@ -192,11 +193,4 @@ const Main = () => {
 
 export default Main;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "#080808",
-  },
-});
+const styles = StyleSheet.create({});
