@@ -17,8 +17,8 @@ const navigation = () => {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Authentication" component={Authentication} />
         <Stack.Screen name="main" component={Main} />
+        <Stack.Screen name="Authentication" component={Authentication} />
         <Stack.Screen name="CategorywiseAnime" component={CategorywiseAnime} />
         <Stack.Screen name="AnimeSeason" component={AnimeSeason} />
         <Stack.Screen name="AnimeEpisodes" component={AnimeEpisodes} />

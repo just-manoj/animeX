@@ -1,10 +1,12 @@
 import { View, StyleSheet, FlatList } from "react-native";
+import { useEffect, useState } from "react";
 
 import Header from "../components/main/Header";
 import Banner from "../components/main/Banner";
 import { AnimeCover } from "../model/Anime";
 import AnimeHorizontalList from "../components/main/AnimeHorizontalList";
 import { container } from "../styles/styles";
+import { getBanner } from "../util/Main";
 
 const Main = () => {
   const SampleAnimeCover = [
@@ -173,13 +175,21 @@ const Main = () => {
     },
   ];
 
+  const [bannerImages, setbannerImages] = useState([]);
+  useEffect(() => {
+    const callBannerImages = async () => {
+      const getBannerImages = await getBanner();
+      setbannerImages(getBannerImages);
+    };
+    callBannerImages();
+  }, []);
   return (
     <View style={container}>
       <Header />
       <FlatList
         data={SampleAnimeCover}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={<Banner />}
+        ListHeaderComponent={<Banner bannerImages={bannerImages} />}
         renderItem={({ item }) => (
           <AnimeHorizontalList
             animeCategory={item.category}

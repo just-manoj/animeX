@@ -1,17 +1,12 @@
 import { StyleSheet, View } from "react-native";
 import { ImageSlider } from "@pembajak/react-native-image-slider-banner";
 
-const Banner = () => {
+const Banner = (props) => {
+  const { bannerImages } = props || {};
   return (
     <View>
       <ImageSlider
-        data={[
-          { img: require("../../../assets/banners/DeathNoteBanner.png") },
-          { img: require("../../../assets/banners/ChainsawManBanner.png") },
-          { img: require("../../../assets/banners/BeyBladeBurstBanner.png") },
-          { img: require("../../../assets/banners/TokyoBanner.png") },
-          { img: require("../../../assets/banners/OnePunchManBanner.png") },
-        ]}
+        data={bannerImages}
         localImg
         autoPlay
         caroselImageStyle={{ height: 155 }}
@@ -38,3 +33,11 @@ const styles = StyleSheet.create({
     width: 7,
   },
 });
+
+// data={[
+//   { img: require("../../../assets/banners/DeathNoteBanner.png") },
+//   { img: require("../../../assets/banners/ChainsawManBanner.png") },
+//   { img: require("../../../assets/banners/BeyBladeBurstBanner.png") },
+//   { img: require("../../../assets/banners/TokyoBanner.png") },
+//   { img: require("../../../assets/banners/OnePunchManBanner.png") },
+// ]}
