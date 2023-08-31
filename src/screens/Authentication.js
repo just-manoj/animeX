@@ -14,11 +14,11 @@ const Authentication = () => {
   const [signUpInputData, setSignUpInputData] = useState({
     name: "",
     email: "",
+    birthDayDate: "",
     password: "",
     repeatPassword: "",
   });
-
-  const [isLogIn, setIsLogIn] = useState(true);
+  const [isLogIn, setIsLogIn] = useState(false);
 
   const updateLogInInputValues = (key, value) => {
     setlogInInputData((existingInputValues) => {

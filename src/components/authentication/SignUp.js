@@ -1,5 +1,12 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Pressable,
+} from "react-native";
 import React, { useState } from "react";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import InputText from "../common/InputText";
 import FullButton from "../common/FullButton";
@@ -13,12 +20,54 @@ const SignUp = (props) => {
     name: false,
     email: false,
     password: false,
+    birthDayDate: new Date(),
     repeatPassword: false,
   };
   const [isPasswordHide, setIsPasswordHide] = useState(true);
   const [isRepeatPasswordHide, setIsRepeatPasswordHide] = useState(true);
   const [isFocus, setIsFocus] = useState(emptyFocus);
 
+  const [dateOfBirth, setDateOfBirth] = useState(
+    new Date(new Date().setFullYear(new Date().getFullYear() - 10))
+  );
+  const [showDataPicker, setShowDatePicker] = useState(false);
+
+  const pickDate = ({ type }, pickedDate) => {
+    if (type == "set") {
+      setDateOfBirth(new Date(pickedDate));
+      changeInputValue("birthDayDate", pickedDate);
+      setShowDatePicker(false);
+    }
+  };
+
+  const dateFormat = (date) => {
+    if (date == "") {
+      return "";
+    }
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const day = date.getDate();
+
+    const monthIndex = date.getMonth();
+    const monthName = monthNames[monthIndex];
+
+    const year = date.getFullYear();
+
+    return `${monthName} ${day} ${year}`;
+  };
   return (
     <KeyboardAvoidingView style={styles.container} behavior="height">
       <View style={styles.secondaryContainer}>
@@ -27,7 +76,7 @@ const SignUp = (props) => {
         <View
           style={[
             styles.inputContainer,
-            isFocus.email && styles.inputTextBorder,
+            isFocus.name && styles.inputTextBorder,
           ]}
         >
           <InputText
@@ -64,6 +113,31 @@ const SignUp = (props) => {
           />
         </View>
 
+        <Pressable
+          style={[
+            styles.inputContainer,
+            isFocus.name && styles.inputTextBorder,
+          ]}
+          onPress={() => setShowDatePicker(true)}
+        >
+          <InputText
+            value={dateFormat(signUpInput.birthDayDate)}
+            onChangeText={(inp) => changeInputValue("birthDayDate", inp)}
+            placeholder="Date of Birth"
+            editable={false}
+          />
+        </Pressable>
+        {showDataPicker && (
+          <DateTimePicker
+            mode="date"
+            value={dateOfBirth}
+            display="spinner"
+            onChange={pickDate}
+            themeVariant="dark"
+            maximumDate={dateOfBirth}
+          />
+        )}
+
         <InputPassword
           inputContainerStyle={[
             styles.inputContainer,
@@ -90,7 +164,7 @@ const SignUp = (props) => {
         <InputPassword
           inputContainerStyle={[
             styles.inputContainer,
-            isFocus.password && styles.inputTextBorder,
+            isFocus.repeatPassword && styles.inputTextBorder,
           ]}
           inputProps={{
             value: signUpInput.repeatPassword,
