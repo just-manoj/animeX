@@ -18,7 +18,8 @@ const AnimeCoverImage = (props) => {
       style={[styles.coverContainer, VerticalStyle]}
       onPress={goToSeasonsScreen}
     >
-      <Image source={coverUrl} style={styles.coverImage} />
+      <Image source={{ uri: coverUrl }} style={styles.coverImage} />
+      {/* <Image source={coverUrl} style={styles.coverImage} /> */}
       <Text style={styles.animeName} numberOfLines={1}>
         {animeName}
       </Text>

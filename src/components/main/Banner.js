@@ -7,8 +7,8 @@ const Banner = (props) => {
     <View>
       <ImageSlider
         data={bannerImages}
-        localImg
-        autoPlay
+        localImg={false}
+        autoPlay={true}
         caroselImageStyle={{ height: 155 }}
         caroselImageContainerStyle={{ height: "auto" }}
         activeIndicatorStyle={styles.activeIndicatorStyle}
