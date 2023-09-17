@@ -3,8 +3,10 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { View, StyleSheet } from "react-native";
 import { StatusBar } from "react-native";
+import { Provider } from "react-redux";
 
 import Navigation from "./src/navigation/Navigation";
+import { store } from "./src/redux/store";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,7 +33,9 @@ const App = () => {
 
   return (
     <View onLayout={onLayoutRootView} style={styles.container}>
-      <Navigation />
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
       <StatusBar barStyle={"light-content"} />
     </View>
   );

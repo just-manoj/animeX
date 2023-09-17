@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DOMAIN = "192.168.162.217";
+const DOMAIN = "192.168.43.217";
 const PORT = 27940;
 const MAIN_ROUTE = "content";
 
