@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  KeyboardAvoidingView,
-} from "react-native";
+import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import React, { useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 
@@ -14,7 +8,8 @@ import InputPassword from "./InputPassword";
 import Footer from "./Footer";
 
 const LogIn = (props) => {
-  const { logInInput, changeInputValue, changeLogInMode } = props || {};
+  const { logInInput, changeInputValue, changeLogInMode, onPress } =
+    props || {};
 
   const emptyFocus = {
     email: false,
@@ -49,42 +44,6 @@ const LogIn = (props) => {
             placeholder="E-Mail Address"
           />
         </View>
-        {/* <View
-          style={[
-            styles.inputContainer,
-            styles.passwordContainer,
-            isFocus.password && styles.inputTextBorder,
-          ]}
-        >
-          <InputText
-            value={logInInput.password}
-            onChangeText={(inp) => changeInputValue("password", inp)}
-            autoFocus={isFocus.password}
-            onFocus={() =>
-              setIsFocus({
-                email: false,
-                password: true,
-              })
-            }
-            onBlur={() =>
-              setIsFocus({
-                email: false,
-                password: false,
-              })
-            }
-            placeholder="Password"
-            secureTextEntry={isPasswordHide}
-            multiline={false}
-          />
-          <Pressable onPress={() => setIsPasswordHide(!isPasswordHide)}>
-            <Entypo
-              name={isPasswordHide ? "eye-with-line" : "eye"}
-              size={24}
-              color="#ffffff"
-            />
-          </Pressable>
-          
-        </View> */}
         <InputPassword
           inputContainerStyle={[
             styles.inputContainer,
@@ -107,7 +66,7 @@ const LogIn = (props) => {
           hidePassword={() => setIsPasswordHide(!isPasswordHide)}
           isPasswordHide={isPasswordHide}
         />
-        <FullButton>LogIn</FullButton>
+        <FullButton onPress={onPress}>LogIn</FullButton>
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
       </View>
       <Footer

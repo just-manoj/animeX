@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { container } from "../styles/styles";
 import LogIn from "../components/authentication/LogIn";
 import SignUp from "../components/authentication/SignUp";
+import { SignUpCall, LogInCall } from "../util/Auth";
 
 const Authentication = () => {
   const [logInInputData, setlogInInputData] = useState({
@@ -47,11 +48,20 @@ const Authentication = () => {
     setSignUpInputData({
       name: "",
       email: "",
+      birthDayDate: "",
       password: "",
       repeatPassword: "",
     });
 
     setIsLogIn(!isLogIn);
+  };
+
+  const signupHandler = async () => {
+    await SignUpCall(signUpInputData);
+  };
+
+  const logInHandler = async () => {
+    await LogInCall(logInInputData);
   };
   return (
     <View style={container}>
@@ -66,12 +76,14 @@ const Authentication = () => {
           logInInput={logInInputData}
           changeInputValue={updateLogInInputValues}
           changeLogInMode={changeLogInMode}
+          onPress={logInHandler}
         />
       ) : (
         <SignUp
           signUpInput={signUpInputData}
           changeInputValue={updateSignUpInputValues}
           changeLogInMode={changeLogInMode}
+          onPress={signupHandler}
         />
       )}
     </View>

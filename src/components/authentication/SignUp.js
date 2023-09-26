@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  KeyboardAvoidingView,
-  Pressable,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -12,15 +6,17 @@ import InputText from "../common/InputText";
 import FullButton from "../common/FullButton";
 import InputPassword from "./InputPassword";
 import Footer from "./Footer";
+import { ScrollView } from "react-native";
 
 const SignUp = (props) => {
-  const { signUpInput, changeInputValue, changeLogInMode } = props || {};
+  const { signUpInput, changeInputValue, changeLogInMode, onPress } =
+    props || {};
 
   const emptyFocus = {
     name: false,
     email: false,
     password: false,
-    birthDayDate: new Date(),
+    birthDayDate: false,
     repeatPassword: false,
   };
   const [isPasswordHide, setIsPasswordHide] = useState(true);
@@ -37,11 +33,13 @@ const SignUp = (props) => {
       setDateOfBirth(new Date(pickedDate));
       changeInputValue("birthDayDate", pickedDate);
       setShowDatePicker(false);
+    } else {
+      setShowDatePicker(false);
     }
   };
 
   const dateFormat = (date) => {
-    if (date == "") {
+    if (date === "") {
       return "";
     }
     const monthNames = [
@@ -69,134 +67,135 @@ const SignUp = (props) => {
     return `${monthName} ${day} ${year}`;
   };
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="height">
-      <View style={styles.secondaryContainer}>
-        <View style={[styles.bannerOverlay, styles.bannerImage]} />
-        <Text style={styles.title}>SignUp</Text>
-        <View
-          style={[
-            styles.inputContainer,
-            isFocus.name && styles.inputTextBorder,
-          ]}
-        >
-          <InputText
-            value={signUpInput.name}
-            onChangeText={(inp) => changeInputValue("name", inp)}
-            onFocus={() =>
-              setIsFocus({
-                ...emptyFocus,
-                name: true,
-              })
-            }
-            onBlur={() => setIsFocus(emptyFocus)}
-            placeholder="Name"
+    <ScrollView ontentContainerStyle={{ flexGrow: 1 }}>
+      <View style={styles.container}>
+        <View style={styles.secondaryContainer}>
+          <View style={[styles.bannerOverlay, styles.bannerImage]} />
+          <Text style={styles.title}>SignUp</Text>
+          <View
+            style={[
+              styles.inputContainer,
+              isFocus.name && styles.inputTextBorder,
+            ]}
+          >
+            <InputText
+              value={signUpInput.name}
+              onChangeText={(inp) => changeInputValue("name", inp)}
+              onFocus={() =>
+                setIsFocus({
+                  ...emptyFocus,
+                  name: true,
+                })
+              }
+              onBlur={() => setIsFocus(emptyFocus)}
+              placeholder="Name"
+            />
+          </View>
+          <View
+            style={[
+              styles.inputContainer,
+              isFocus.email && styles.inputTextBorder,
+            ]}
+          >
+            <InputText
+              value={signUpInput.email}
+              keyboardType="email-address"
+              onChangeText={(inp) => changeInputValue("email", inp)}
+              onFocus={() =>
+                setIsFocus({
+                  ...emptyFocus,
+                  email: true,
+                })
+              }
+              onBlur={() => setIsFocus(emptyFocus)}
+              placeholder="E-Mail Address"
+            />
+          </View>
+
+          <View
+            style={[
+              styles.inputContainer,
+              isFocus.birthDayDate && styles.inputTextBorder,
+            ]}
+          >
+            <InputText
+              value={dateFormat(signUpInput.birthDayDate)}
+              onChangeText={(inp) => changeInputValue("birthDayDate", inp)}
+              placeholder="Date of Birth"
+              onFocus={() => setShowDatePicker(true)}
+            />
+          </View>
+          {showDataPicker && (
+            <DateTimePicker
+              mode="date"
+              value={dateOfBirth}
+              display="spinner"
+              onChange={pickDate}
+              themeVariant="dark"
+              maximumDate={dateOfBirth}
+            />
+          )}
+
+          <InputPassword
+            inputContainerStyle={[
+              styles.inputContainer,
+              isFocus.password && styles.inputTextBorder,
+            ]}
+            inputProps={{
+              value: signUpInput.password,
+              onChangeText: (inp) => changeInputValue("password", inp),
+              autoFocus: isFocus.password,
+              onFocus: () =>
+                setIsFocus({
+                  ...emptyFocus,
+                  password: true,
+                }),
+              onBlur: () => setIsFocus(emptyFocus),
+              placeholder: "Password",
+              secureTextEntry: isPasswordHide,
+              multiline: false,
+            }}
+            hidePassword={() => setIsPasswordHide(!isPasswordHide)}
+            isPasswordHide={isPasswordHide}
           />
+
+          <InputPassword
+            inputContainerStyle={[
+              styles.inputContainer,
+              isFocus.repeatPassword && styles.inputTextBorder,
+            ]}
+            inputProps={{
+              value: signUpInput.repeatPassword,
+              onChangeText: (inp) => changeInputValue("repeatPassword", inp),
+              autoFocus: isFocus.repeatPassword,
+              onFocus: () =>
+                setIsFocus({
+                  ...isFocus,
+                  repeatPassword: true,
+                }),
+              onBlur: () =>
+                setIsFocus({
+                  name: false,
+                  email: false,
+                  password: false,
+                  repeatPassword: false,
+                }),
+              placeholder: "Repeat Password",
+              secureTextEntry: isRepeatPasswordHide,
+              multiline: false,
+            }}
+            hidePassword={() => setIsRepeatPasswordHide(!isRepeatPasswordHide)}
+            isPasswordHide={isRepeatPasswordHide}
+          />
+          <FullButton onPress={onPress}>SignUp</FullButton>
         </View>
-        <View
-          style={[
-            styles.inputContainer,
-            isFocus.email && styles.inputTextBorder,
-          ]}
-        >
-          <InputText
-            value={signUpInput.email}
-            keyboardType="email-address"
-            onChangeText={(inp) => changeInputValue("email", inp)}
-            onFocus={() =>
-              setIsFocus({
-                ...emptyFocus,
-                email: true,
-              })
-            }
-            onBlur={() => setIsFocus(emptyFocus)}
-            placeholder="E-Mail Address"
-          />
-        </View>
-
-        <Pressable
-          style={[
-            styles.inputContainer,
-            isFocus.name && styles.inputTextBorder,
-          ]}
-          onPress={() => setShowDatePicker(true)}
-        >
-          <InputText
-            value={dateFormat(signUpInput.birthDayDate)}
-            onChangeText={(inp) => changeInputValue("birthDayDate", inp)}
-            placeholder="Date of Birth"
-            editable={false}
-          />
-        </Pressable>
-        {showDataPicker && (
-          <DateTimePicker
-            mode="date"
-            value={dateOfBirth}
-            display="spinner"
-            onChange={pickDate}
-            themeVariant="dark"
-            maximumDate={dateOfBirth}
-          />
-        )}
-
-        <InputPassword
-          inputContainerStyle={[
-            styles.inputContainer,
-            isFocus.password && styles.inputTextBorder,
-          ]}
-          inputProps={{
-            value: signUpInput.password,
-            onChangeText: (inp) => changeInputValue("password", inp),
-            autoFocus: isFocus.password,
-            onFocus: () =>
-              setIsFocus({
-                ...emptyFocus,
-                password: true,
-              }),
-            onBlur: () => setIsFocus(emptyFocus),
-            placeholder: "Password",
-            secureTextEntry: isPasswordHide,
-            multiline: false,
-          }}
-          hidePassword={() => setIsPasswordHide(!isPasswordHide)}
-          isPasswordHide={isPasswordHide}
+        <Footer
+          changeLogInMode={changeLogInMode}
+          changeMode="LogIn"
+          account="Already have an account? "
         />
-
-        <InputPassword
-          inputContainerStyle={[
-            styles.inputContainer,
-            isFocus.repeatPassword && styles.inputTextBorder,
-          ]}
-          inputProps={{
-            value: signUpInput.repeatPassword,
-            onChangeText: (inp) => changeInputValue("repeatPassword", inp),
-            autoFocus: isFocus.repeatPassword,
-            onFocus: () =>
-              setIsFocus({
-                ...isFocus,
-                repeatPassword: true,
-              }),
-            onBlur: () =>
-              setIsFocus({
-                name: false,
-                email: false,
-                password: false,
-                repeatPassword: false,
-              }),
-            placeholder: "Repeat Password",
-            secureTextEntry: isRepeatPasswordHide,
-            multiline: false,
-          }}
-          hidePassword={() => setIsRepeatPasswordHide(!isRepeatPasswordHide)}
-          isPasswordHide={isRepeatPasswordHide}
-        />
-        <FullButton>SignUp</FullButton>
       </View>
-      <Footer
-        changeLogInMode={changeLogInMode}
-        changeMode="LogIn"
-        account="Already have an account? "
-      />
-    </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
