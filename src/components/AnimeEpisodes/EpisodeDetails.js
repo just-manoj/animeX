@@ -7,7 +7,7 @@ const EpisodeDetails = (props) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View>
-        <Image source={episodeImageUrl} style={styles.image} />
+        <Image source={{ uri: episodeImageUrl }} style={styles.image} />
         <View style={styles.imageOverContainer}>
           <Text style={styles.episodeNo}>#{episodeNo}</Text>
           <Text style={[styles.episodeNo, styles.timing]}>{timing}</Text>

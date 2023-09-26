@@ -6,19 +6,24 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
 
 import { AnimeSeasonEpisodes } from "../model/Anime";
 import { container } from "../styles/styles";
+import { getNoOfSeasons } from "../util/Anime";
+import { useState } from "react";
 
 const SeasonCover = (props) => {
-  const { noOfEpisode, noOfSeason } = props;
+  const { noOfEpisode, noOfSeason, animeName } = props;
   const navigation = useNavigation();
 
   const goToEpisodesScreen = () => {
     navigation.navigate("AnimeEpisodes", {
-      animeName: "Pokemon",
+      animeName: animeName,
+      season: noOfSeason,
     });
   };
+
   return (
     <TouchableOpacity
       style={styles.seasonContainer}
@@ -31,14 +36,22 @@ const SeasonCover = (props) => {
 };
 
 const AnimeSeason = ({ route }) => {
-  const { animeName } = route.params;
-  const episodes = [
-    76, 25, 41, 58, 64, 40, 52, 52, 47, 51, 52, 52, 34, 48, 49, 45, 48, 45, 48,
-    43, 48, 54, 48, 42, 42,
-  ];
+  const { animeName, animeCategory } = route.params;
+
+  const [episodes, setEpisodes] = useState([]);
   const totalSeasons = episodes.map(
     (ep, index) => new AnimeSeasonEpisodes(index + 1, ep)
   );
+
+  useEffect(() => {
+    const fetchSeasonsDetails = async () => {
+      const response = await getNoOfSeasons(animeCategory, animeName);
+
+      setEpisodes(response.episodes);
+    };
+
+    fetchSeasonsDetails();
+  }, []);
   return (
     <View style={container}>
       <Text style={styles.animeTitle}>{animeName}</Text>
@@ -47,6 +60,7 @@ const AnimeSeason = ({ route }) => {
         keyExtractor={(item) => item.noOfSeason}
         renderItem={({ item }) => (
           <SeasonCover
+            animeName={animeName}
             noOfSeason={item.noOfSeason}
             noOfEpisode={item.noOfEpisodes}
           />

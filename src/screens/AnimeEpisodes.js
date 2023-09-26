@@ -1,11 +1,15 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import { useEffect, useState } from "react";
 
 import { AnimeEpisode } from "../model/Anime";
 import EpisodeDetails from "../components/AnimeEpisodes/EpisodeDetails";
 import { container } from "../styles/styles";
+import { getAnimeEpisodes } from "../util/Anime";
 
 const AnimeEpisodes = ({ route, navigation }) => {
-  const { animeName } = route.params || {};
+  const { animeName, season } = route.params || {};
+
+  const [animeEpisodes, setAnimeEpisodes] = useState({});
 
   const episodeList = {
     animeName: animeName,
@@ -98,14 +102,23 @@ const AnimeEpisodes = ({ route, navigation }) => {
     navigation.navigate("AnimePlayer");
   };
 
+  useEffect(() => {
+    const fetchAnimeEpisodes = async () => {
+      const fetchAnimeEpisodes = await getAnimeEpisodes("kudama", animeName);
+
+      setAnimeEpisodes(fetchAnimeEpisodes);
+    };
+
+    fetchAnimeEpisodes();
+  }, []);
   return (
     <View style={container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.animeTitle}>{episodeList.animeName}</Text>
-        <Text style={styles.season}>Season {episodeList.noOfSeason}</Text>
+        <Text style={styles.animeTitle}>{animeName}</Text>
+        <Text style={styles.season}>Season {season}</Text>
       </View>
       <FlatList
-        data={episodeList.episodesList}
+        data={animeEpisodes.episodesList}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <EpisodeDetails {...item} onPress={goToAnimePlayerScreen} />
@@ -118,13 +131,6 @@ const AnimeEpisodes = ({ route, navigation }) => {
 export default AnimeEpisodes;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "#080808",
-    paddingBottom: 10,
-  },
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",

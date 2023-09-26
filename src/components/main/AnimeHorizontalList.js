@@ -31,6 +31,7 @@ const AnimeHorizontalList = (props) => {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <AnimeCoverImage
+            animeCategory={animeCategory}
             coverUrl={item.coverImgUrl}
             animeName={item.animeName}
           />
