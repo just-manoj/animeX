@@ -5,6 +5,7 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
 
 import { container } from "../styles/styles";
+import { DOMAIN, MAIN_ROUTE, PORT } from "../util/Domain";
 
 const AnimePlayer = ({ navigation }) => {
   const videoRef = React.useRef(null);
@@ -40,7 +41,10 @@ const AnimePlayer = ({ navigation }) => {
         ref={videoRef}
         style={styles.video}
         useNativeControls
-        source={require("../../assets/Video/ChainSawManSample.mp4")}
+        // source={require("../../assets/Video/ChainSawManSample.mp4")}
+        source={{
+          uri: `http://${DOMAIN}:${PORT}/assets/episodes/BeyBlade Burst S01 E01.m4v`,
+        }}
         resizeMode={ResizeMode.CONTAIN}
         shouldPlay
       />
