@@ -22,7 +22,7 @@ export const getMainScreenContent = async () => {
   const mainScreenContent = responses.map((content) => {
     return {
       ...content,
-      list: content.list.map((anime) => {
+      animeList: content.animeList.map((anime) => {
         return {
           ...anime,
           coverImgUrl: `http://${DOMAIN}:${PORT}` + anime.coverImgUrl,

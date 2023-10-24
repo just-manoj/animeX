@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import AnimeCoverImage from "../components/common/AnimeCoverImage";
 import CategorywiseHeader from "../components/common/CategorywiseHeader";
 import { container } from "../styles/styles";
-import { filterByCategory } from "../redux/allAnimeContent";
 
 const CategorywiseAnime = ({ route }) => {
   const { category } = route.params;
@@ -13,23 +12,24 @@ const CategorywiseAnime = ({ route }) => {
   const [animeList, setAnimeList] = useState([]);
   const [searchInputData, setSearchInputData] = useState("");
 
-  const dispatch = useDispatch();
-
   const categorizedAnimeDetail = useSelector(
     (state) => state.allAnimeContent.animeContent
   );
 
   useEffect(() => {
-    dispatch(filterByCategory({ animeCatogery: category }));
+    const animeFilterByCategory = categorizedAnimeDetail.filter(
+      (anime) => anime.category === category
+    );
 
-    setAnimeList(categorizedAnimeDetail[0].list);
-    setInitialAnimeList(categorizedAnimeDetail[0]);
-  }, []);
+    setAnimeList(animeFilterByCategory[0].animeList);
+
+    setInitialAnimeList(animeFilterByCategory[0]);
+  }, [categorizedAnimeDetail]);
 
   const changeSearchInputData = (inp) => {
     setSearchInputData(inp);
     setAnimeList(
-      initialAnimeList.list.filter((anime) => {
+      initialAnimeList.animeList.filter((anime) => {
         return anime.animeName.toUpperCase().indexOf(inp.toUpperCase()) !== -1;
       })
     );

@@ -11,21 +11,10 @@ const allAnimeContentSlice = createSlice({
         state.animeContent.push(animeContent);
       });
     },
-    filterByCategory: (state, action) => {
-      const animeFilterByCategory = state.animeContent.filter(
-        (anime) => anime.category !== action.payload.animeCatogery
-      );
-
-      return {
-        ...state,
-        animeContent: animeFilterByCategory,
-      };
-    },
   },
 });
 
 export const initializeAnimeContent =
   allAnimeContentSlice.actions.initializeAnimeContent;
-export const filterByCategory = allAnimeContentSlice.actions.filterByCategory;
 
 export default allAnimeContentSlice.reducer;

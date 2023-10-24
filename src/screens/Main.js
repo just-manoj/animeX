@@ -43,7 +43,7 @@ const Main = () => {
             renderItem={({ item }) => (
               <AnimeHorizontalList
                 animeCategory={item.category}
-                animeList={item.list}
+                animeList={item.animeList}
               />
             )}
           />
