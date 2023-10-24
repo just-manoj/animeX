@@ -2,23 +2,23 @@ import { StyleSheet, Image, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 
 const EpisodeDetails = (props) => {
-  const { episodeNo, episodeName, episodeImageUrl, desc, timing, onPress } =
+  const { noOfEpisode, title, thumnailUrl, description, duration, onPress } =
     props;
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View>
-        <Image source={{ uri: episodeImageUrl }} style={styles.image} />
+        <Image source={{ uri: thumnailUrl }} style={styles.image} />
         <View style={styles.imageOverContainer}>
-          <Text style={styles.episodeNo}>#{episodeNo}</Text>
-          <Text style={[styles.episodeNo, styles.timing]}>{timing}</Text>
+          <Text style={styles.episodeNo}>#{noOfEpisode}</Text>
+          <Text style={[styles.episodeNo, styles.timing]}>{duration}</Text>
         </View>
       </View>
       <View style={styles.descriptionContiner}>
         <Text numberOfLines={1} style={styles.episodeName}>
-          {episodeName}
+          {title}
         </Text>
         <Text numberOfLines={3} style={styles.desc}>
-          {desc}
+          {description}
         </Text>
       </View>
     </TouchableOpacity>

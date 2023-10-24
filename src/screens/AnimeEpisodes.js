@@ -7,7 +7,7 @@ import { container } from "../styles/styles";
 import { getAnimeEpisodes } from "../util/Anime";
 
 const AnimeEpisodes = ({ route, navigation }) => {
-  const { animeName, season } = route.params || {};
+  const { animeName, season, animeCategory } = route.params || {};
 
   const [animeEpisodes, setAnimeEpisodes] = useState({});
 
@@ -104,9 +104,12 @@ const AnimeEpisodes = ({ route, navigation }) => {
 
   useEffect(() => {
     const fetchAnimeEpisodes = async () => {
-      const fetchAnimeEpisodes = await getAnimeEpisodes("kudama", animeName);
-
-      setAnimeEpisodes(fetchAnimeEpisodes);
+      const fetchAnimeEpisodes = await getAnimeEpisodes(
+        animeCategory,
+        animeName,
+        season
+      );
+      setAnimeEpisodes(fetchAnimeEpisodes.episodesList);
     };
 
     fetchAnimeEpisodes();
@@ -118,8 +121,8 @@ const AnimeEpisodes = ({ route, navigation }) => {
         <Text style={styles.season}>Season {season}</Text>
       </View>
       <FlatList
-        data={animeEpisodes.episodesList}
-        keyExtractor={(item) => item.id}
+        data={animeEpisodes}
+        keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <EpisodeDetails {...item} onPress={goToAnimePlayerScreen} />
         )}

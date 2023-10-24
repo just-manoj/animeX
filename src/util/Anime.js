@@ -12,22 +12,21 @@ export const getNoOfSeasons = async (category, animeName) => {
   return responses;
 };
 
-export const getAnimeEpisodes = async (category, animeName) => {
+export const getAnimeEpisodes = async (category, animeName, season) => {
   const responses = (
     await axios.get(
-      `http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/category/${category}/${animeName}/episodes`
+      `http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/category/${category}/${animeName}/episodes?season=${season}`
     )
   ).data;
 
   const AnimeEpisodesContent = {
     ...responses,
-    episodesList: responses.animeEpisode.episodesList.map((anime) => {
+    episodesList: responses.episodesList.map((anime) => {
       return {
         ...anime,
-        episodeImageUrl: `http://${DOMAIN}:${PORT}` + anime.episodeImageUrl,
+        thumnailUrl: `http://${DOMAIN}:${PORT}${anime.thumnailUrl}`,
       };
     }),
   };
-
   return AnimeEpisodesContent;
 };

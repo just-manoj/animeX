@@ -14,13 +14,15 @@ import { getNoOfSeasons } from "../util/Anime";
 import { useState } from "react";
 
 const SeasonCover = (props) => {
-  const { noOfEpisode, noOfSeason, animeName } = props;
+  const { noOfEpisode, noOfSeason, animeName, animeCategory } = props;
+
   const navigation = useNavigation();
 
   const goToEpisodesScreen = () => {
     navigation.navigate("AnimeEpisodes", {
       animeName: animeName,
       season: noOfSeason,
+      animeCategory: animeCategory,
     });
   };
 
@@ -63,6 +65,7 @@ const AnimeSeason = ({ route }) => {
             animeName={animeName}
             noOfSeason={item.noOfSeason}
             noOfEpisode={item.noOfEpisodes}
+            animeCategory={animeCategory}
           />
         )}
         style={{ marginBottom: 15 }}
