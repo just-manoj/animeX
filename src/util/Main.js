@@ -7,11 +7,7 @@ export const getBanner = async () => {
     await axios.get(`http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/banner`)
   ).data.images;
 
-  const bannerImages = responses.map((url) => {
-    // return { img: { uri: `http://${DOMAIN}:${PORT}` + url } };
-    return { img: `http://${DOMAIN}:${PORT}` + url };
-  });
-  return bannerImages;
+  return responses;
 };
 
 export const getMainScreenContent = async () => {
@@ -19,17 +15,5 @@ export const getMainScreenContent = async () => {
     await axios.get(`http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/listAll`)
   ).data.animeContent;
 
-  const mainScreenContent = responses.map((content) => {
-    return {
-      ...content,
-      animeList: content.animeList.map((anime) => {
-        return {
-          ...anime,
-          coverImgUrl: `http://${DOMAIN}:${PORT}` + anime.coverImgUrl,
-        };
-      }),
-    };
-  });
-
-  return mainScreenContent;
+  return responses;
 };
