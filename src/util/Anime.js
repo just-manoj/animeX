@@ -19,14 +19,5 @@ export const getAnimeEpisodes = async (category, animeName, season) => {
     )
   ).data;
 
-  const AnimeEpisodesContent = {
-    ...responses,
-    episodesList: responses.episodesList.map((anime) => {
-      return {
-        ...anime,
-        thumnailUrl: `http://${DOMAIN}:${PORT}${anime.thumnailUrl}`,
-      };
-    }),
-  };
-  return AnimeEpisodesContent;
+  return responses;
 };

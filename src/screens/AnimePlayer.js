@@ -7,8 +7,10 @@ import { StatusBar } from "expo-status-bar";
 import { container } from "../styles/styles";
 import { DOMAIN, MAIN_ROUTE, PORT } from "../util/Domain";
 
-const AnimePlayer = ({ navigation }) => {
+const AnimePlayer = ({ navigation, route }) => {
+  const { videoUrl } = route.params;
   const videoRef = React.useRef(null);
+  console.log(videoUrl);
 
   const changeOrientation = async () => {
     await ScreenOrientation.lockAsync(
@@ -42,11 +44,14 @@ const AnimePlayer = ({ navigation }) => {
         style={styles.video}
         useNativeControls
         // source={require("../../assets/Video/ChainSawManSample.mp4")}
+        // source={require("../../assets/Video/ToYouIn2000Years.mkv")}
         source={{
-          uri: `http://${DOMAIN}:${PORT}/assets/episodes/BeyBlade Burst S01 E01.m4v`,
+          // uri: `http://${DOMAIN}:27941/assets/Attack On Titan/Season 1/01 - To You, in 2000 Years.mkv`,
+          uri: videoUrl,
         }}
         resizeMode={ResizeMode.CONTAIN}
         shouldPlay
+        onError={(error) => console.error("Video error: ", error)}
       />
     </View>
   );

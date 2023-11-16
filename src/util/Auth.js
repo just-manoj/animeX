@@ -13,7 +13,7 @@ export const SignUpCall = async (signUpData) => {
     })
   ).data;
 
-  console.log(responses);
+  // console.log(responses);
 };
 
 export const LogInCall = async (logInData) => {
@@ -25,5 +25,5 @@ export const LogInCall = async (logInData) => {
     })
   ).data;
 
-  console.log(responses);
+  // console.log(responses);
 };

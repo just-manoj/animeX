@@ -98,10 +98,6 @@ const AnimeEpisodes = ({ route, navigation }) => {
     ],
   };
 
-  const goToAnimePlayerScreen = () => {
-    navigation.navigate("AnimePlayer");
-  };
-
   useEffect(() => {
     const fetchAnimeEpisodes = async () => {
       const fetchAnimeEpisodes = await getAnimeEpisodes(
@@ -123,9 +119,7 @@ const AnimeEpisodes = ({ route, navigation }) => {
       <FlatList
         data={animeEpisodes}
         keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <EpisodeDetails {...item} onPress={goToAnimePlayerScreen} />
-        )}
+        renderItem={({ item }) => <EpisodeDetails {...item} />}
       />
     </View>
   );

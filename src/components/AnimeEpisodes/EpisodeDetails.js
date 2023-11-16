@@ -1,11 +1,20 @@
 import { StyleSheet, Image, Text, View, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 
 const EpisodeDetails = (props) => {
-  const { noOfEpisode, title, thumnailUrl, description, duration, onPress } =
+  const navigation = useNavigation();
+
+  const goToAnimePlayerScreen = () => {
+    navigation.navigate("AnimePlayer", {
+      videoUrl: videoUrl,
+    });
+  };
+
+  const { noOfEpisode, title, thumnailUrl, description, duration, videoUrl } =
     props;
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={goToAnimePlayerScreen}>
       <View>
         <Image source={{ uri: thumnailUrl }} style={styles.image} />
         <View style={styles.imageOverContainer}>
