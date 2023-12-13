@@ -56,6 +56,7 @@ const CategorywiseAnime = ({ route }) => {
             coverUrl={item.coverImgUrl}
             animeName={item.animeName}
             VerticalStyle={{ marginBottom: 20, width: 130 }}
+            animeCategory={category}
           />
         )}
         numColumns={3}

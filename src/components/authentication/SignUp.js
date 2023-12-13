@@ -108,7 +108,7 @@ const SignUp = (props) => {
                 })
               }
               onBlur={() => setIsFocus(emptyFocus)}
-              placeholder="E-Mail Address"
+              placeholder="E-Mail"
             />
           </View>
 

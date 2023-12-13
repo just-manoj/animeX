@@ -5,12 +5,10 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
 
 import { container } from "../styles/styles";
-import { DOMAIN, MAIN_ROUTE, PORT } from "../util/Domain";
 
 const AnimePlayer = ({ navigation, route }) => {
   const { videoUrl } = route.params;
   const videoRef = React.useRef(null);
-  console.log(videoUrl);
 
   const changeOrientation = async () => {
     await ScreenOrientation.lockAsync(
