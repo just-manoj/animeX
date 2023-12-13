@@ -1,12 +1,13 @@
 import { StyleSheet, View, Image } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { container } from "../styles/styles";
 import LogIn from "../components/authentication/LogIn";
 import SignUp from "../components/authentication/SignUp";
-import { SignUpCall, LogInCall } from "../util/Auth";
+import { SignUpCall, LogInCall, isAuthenticated } from "../util/Auth";
+import Loading from "../components/common/Loading";
 
-const Authentication = () => {
+const Authentication = ({ navigation }) => {
   const [logInInputData, setlogInInputData] = useState({
     email: "",
     password: "",
@@ -19,7 +20,8 @@ const Authentication = () => {
     password: "",
     repeatPassword: "",
   });
-  const [isLogIn, setIsLogIn] = useState(false);
+  const [isLogIn, setIsLogIn] = useState(true);
+  const [isAuth, setIsAuth] = useState(true);
 
   const updateLogInInputValues = (key, value) => {
     setlogInInputData((existingInputValues) => {
@@ -58,35 +60,62 @@ const Authentication = () => {
 
   const signupHandler = async () => {
     await SignUpCall(signUpInputData);
+    navigationHandler();
   };
 
   const logInHandler = async () => {
     await LogInCall(logInInputData);
+    navigationHandler();
   };
+
+  const navigationHandler = () => {
+    navigation.navigate("main");
+  };
+
+  useEffect(() => {
+    const authHandler = async () => {
+      const status = await isAuthenticated();
+
+      if (status.message == "Authtendicated...!") {
+        navigationHandler();
+      } else {
+        setIsAuth(false);
+      }
+    };
+
+    authHandler();
+  }, [isAuthenticated]);
+
   return (
-    <View style={container}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("../../assets/banners/welcome.jpg")}
-          style={styles.bannerImage}
-        />
-      </View>
-      {isLogIn ? (
-        <LogIn
-          logInInput={logInInputData}
-          changeInputValue={updateLogInInputValues}
-          changeLogInMode={changeLogInMode}
-          onPress={logInHandler}
-        />
+    <>
+      {isAuth ? (
+        <Loading />
       ) : (
-        <SignUp
-          signUpInput={signUpInputData}
-          changeInputValue={updateSignUpInputValues}
-          changeLogInMode={changeLogInMode}
-          onPress={signupHandler}
-        />
+        <View style={container}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={require("../../assets/banners/welcome.jpg")}
+              style={styles.bannerImage}
+            />
+          </View>
+          {isLogIn ? (
+            <LogIn
+              logInInput={logInInputData}
+              changeInputValue={updateLogInInputValues}
+              changeLogInMode={changeLogInMode}
+              onPress={logInHandler}
+            />
+          ) : (
+            <SignUp
+              signUpInput={signUpInputData}
+              changeInputValue={updateSignUpInputValues}
+              changeLogInMode={changeLogInMode}
+              onPress={signupHandler}
+            />
+          )}
+        </View>
       )}
-    </View>
+    </>
   );
 };
 
