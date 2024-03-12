@@ -4,13 +4,15 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 
 const AnimeCoverImage = (props) => {
-  const { animeName, coverUrl, VerticalStyle, animeCategory } = props || {};
+  const { animeName, coverUrl, VerticalStyle, animeCategory, backScreenName } =
+    props || {};
   const navigation = useNavigation();
 
   const goToSeasonsScreen = () => {
     navigation.navigate("AnimeSeason", {
       animeName: animeName,
       animeCategory: animeCategory,
+      backScreenName: backScreenName ? backScreenName : "CategorywiseAnime",
     });
   };
 

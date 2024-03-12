@@ -14,22 +14,24 @@ import { getNoOfSeasons } from "../util/Anime";
 import { useState } from "react";
 
 const SeasonCover = (props) => {
-  const { noOfEpisode, noOfSeason, animeName, animeCategory } = props;
-
-  const navigation = useNavigation();
-
-  const goToEpisodesScreen = () => {
-    navigation.navigate("AnimeEpisodes", {
-      animeName: animeName,
-      season: noOfSeason,
-      animeCategory: animeCategory,
-    });
-  };
+  const {
+    noOfEpisode,
+    noOfSeason,
+    animeName,
+    animeCategory,
+    onGoToEpisodesScreen,
+  } = props;
 
   return (
     <TouchableOpacity
       style={styles.seasonContainer}
-      onPress={goToEpisodesScreen}
+      onPress={() =>
+        onGoToEpisodesScreen({
+          animeName: animeName,
+          animeCategory: animeCategory,
+          season: noOfSeason,
+        })
+      }
     >
       <Text style={styles.season}>Season {noOfSeason}</Text>
       <Text style={styles.episodes}>Episodes:{noOfEpisode}</Text>
@@ -37,19 +39,43 @@ const SeasonCover = (props) => {
   );
 };
 
-const AnimeSeason = ({ route }) => {
-  const { animeName, animeCategory } = route.params;
+const AnimeSeason = ({ route, navigation }) => {
+  const { animeName, animeCategory, backScreenName } = route.params || {};
 
   const [episodes, setEpisodes] = useState([]);
   const totalSeasons = episodes.map(
     (ep, index) => new AnimeSeasonEpisodes(index + 1, ep)
   );
 
+  const goToEpisodesScreen = (animeData) => {
+    navigation.navigate("AnimeEpisodes", {
+      ...animeData,
+    });
+  };
+
+  const goToLogInScreen = () => {
+    navigation.navigate("Authentication");
+  };
+
   useEffect(() => {
     const fetchSeasonsDetails = async () => {
       const response = await getNoOfSeasons(animeCategory, animeName);
 
-      setEpisodes(response.episodes);
+      if (response.message == "Not Authtendicated..!") {
+        goToLogInScreen();
+      }
+
+      if (response.episodes.length < 2) {
+        goToEpisodesScreen({
+          animeName: animeName,
+          animeCategory: animeCategory,
+          season: 1,
+          singleSeason: true,
+          backScreenName: backScreenName ? backScreenName : "AnimeSeason",
+        });
+      } else {
+        setEpisodes(response.episodes);
+      }
     };
 
     fetchSeasonsDetails();
@@ -66,6 +92,7 @@ const AnimeSeason = ({ route }) => {
             noOfSeason={item.noOfSeason}
             noOfEpisode={item.noOfEpisodes}
             animeCategory={animeCategory}
+            onGoToEpisodesScreen={goToEpisodesScreen}
           />
         )}
         style={{ marginBottom: 15 }}

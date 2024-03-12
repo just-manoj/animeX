@@ -11,18 +11,23 @@ export const getNoOfSeasons = async (category, animeName) => {
     return console.log("There is No Token Here..", error);
   }
 
-  const responses = (
-    await axios.get(
-      `http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/category/${category}/${animeName}/seasons`,
-      {
-        headers: {
-          Authorization: "Bearer " + authToken,
-        },
-      }
-    )
-  ).data;
+  try {
+    const responses = (
+      await axios.get(
+        `http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/category/${category}/${animeName}/seasons`,
+        {
+          headers: {
+            Authorization: "Bearer " + authToken,
+          },
+        }
+      )
+    ).data;
 
-  return responses;
+    return responses;
+  } catch (error) {
+    // console.log(error);
+    return { message: "Not Authtendicated..!" };
+  }
 };
 
 export const getAnimeEpisodes = async (category, animeName, season) => {

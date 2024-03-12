@@ -34,6 +34,7 @@ const AnimeHorizontalList = (props) => {
             animeCategory={animeCategory}
             coverUrl={item.coverImgUrl}
             animeName={item.animeName}
+            backScreenName="main"
           />
         )}
         showsHorizontalScrollIndicator={false}
