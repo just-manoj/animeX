@@ -6,13 +6,6 @@ export class AnimeCover {
   }
 }
 
-export class AnimeSeasonEpisodes {
-  constructor(noOfSeason, noOfEpisodes) {
-    this.noOfSeason = noOfSeason;
-    this.noOfEpisodes = noOfEpisodes;
-  }
-}
-
 export class AnimeEpisode {
   constructor(id, episodeNo, episodeName, episodeImageUrl, desc, timing) {
     this.id = id;
