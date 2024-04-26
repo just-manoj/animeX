@@ -1,5 +1,5 @@
-import { StyleSheet, View, BackHandler } from "react-native";
-import React, { useEffect } from "react";
+import { StyleSheet, View, BackHandler, ActivityIndicator } from "react-native";
+import React, { useEffect, useState } from "react";
 import { Video, ResizeMode } from "expo-av";
 import * as ScreenOrientation from "expo-screen-orientation";
 import { StatusBar } from "expo-status-bar";
@@ -9,6 +9,7 @@ import { container } from "../styles/styles";
 const AnimePlayer = ({ navigation, route }) => {
   const { videoUrl } = route.params;
   const videoRef = React.useRef(null);
+  const [isEpisodeLoading, setIsEpisodeLoading] = useState(true);
 
   const changeOrientation = async () => {
     await ScreenOrientation.lockAsync(
@@ -17,17 +18,38 @@ const AnimePlayer = ({ navigation, route }) => {
   };
 
   const changeOriginalOrientation = async () => {
-    navigation.goBack();
     await ScreenOrientation.lockAsync(
       ScreenOrientation.OrientationLock.PORTRAIT
     );
   };
 
+  const handlePlaybackStatusUpdate = (status) => {
+    if (status.isBuffering || !status.isLoaded) {
+      setIsEpisodeLoading(() => {
+        return true;
+      });
+    } else {
+      setIsEpisodeLoading(() => {
+        return false;
+      });
+    }
+
+    if (status.positionMillis === status.durationMillis) {
+      changeOriginalOrientation();
+      navigation.goBack();
+    }
+  };
+
   useEffect(() => {
-    BackHandler.addEventListener(
+    const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
-      changeOriginalOrientation
+      () => {
+        changeOriginalOrientation();
+        navigation.goBack();
+        return true;
+      }
     );
+    return () => backHandler.remove();
   }, []);
 
   useEffect(() => {
@@ -41,16 +63,19 @@ const AnimePlayer = ({ navigation, route }) => {
         ref={videoRef}
         style={styles.video}
         useNativeControls
-        // source={require("../../assets/Video/ChainSawManSample.mp4")}
-        // source={require("../../assets/Video/ToYouIn2000Years.mkv")}
         source={{
-          // uri: `http://${DOMAIN}:27941/assets/Attack On Titan/Season 1/01 - To You, in 2000 Years.mkv`,
           uri: videoUrl,
         }}
         resizeMode={ResizeMode.CONTAIN}
         shouldPlay
+        onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
         onError={(error) => console.error("Video error: ", error)}
       />
+      {isEpisodeLoading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size={"large"} color="#19ece8" />
+        </View>
+      )}
     </View>
   );
 };
@@ -62,5 +87,12 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     width: "100%",
+  },
+  loadingContainer: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

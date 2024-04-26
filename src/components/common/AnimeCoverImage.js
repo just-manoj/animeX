@@ -9,7 +9,7 @@ const AnimeCoverImage = (props) => {
   const navigation = useNavigation();
 
   const goToSeasonsScreen = () => {
-    navigation.navigate("AnimeSeason", {
+    navigation.navigate("AnimeDetails", {
       animeName: animeName,
       animeCategory: animeCategory,
       backScreenName: backScreenName ? backScreenName : "CategorywiseAnime",
