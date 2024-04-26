@@ -1,12 +1,12 @@
-import { View, FlatList, StyleSheet } from "react-native";
+import { View, FlatList, StyleSheet, BackHandler } from "react-native";
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import AnimeCoverImage from "../components/common/AnimeCoverImage";
 import CategorywiseHeader from "../components/common/CategorywiseHeader";
 import { container } from "../styles/styles";
 
-const CategorywiseAnime = ({ route }) => {
+const CategorywiseAnime = ({ route, navigation }) => {
   const { category } = route.params;
   const [initialAnimeList, setInitialAnimeList] = useState({});
   const [animeList, setAnimeList] = useState([]);
@@ -38,6 +38,20 @@ const CategorywiseAnime = ({ route }) => {
   const clearSearchInputData = () => {
     setSearchInputData("");
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.goBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View style={container}>

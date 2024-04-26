@@ -33,8 +33,10 @@ export const LogInCall = async (logInData) => {
 
   try {
     await AsyncStorage.setItem("Auth-Token", responses.token);
+    return responses;
   } catch (error) {
     console.log(error);
+    return { status: "failed" };
   }
 };
 
@@ -56,9 +58,9 @@ export const isAuthenticated = async () => {
         },
       })
     ).data;
+    console.log(responses);
     return responses;
   } catch (error) {
-    console.log(error);
     return { message: "Not Authtendicated..!" };
   }
 };

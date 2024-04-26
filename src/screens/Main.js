@@ -1,4 +1,4 @@
-import { View, FlatList } from "react-native";
+import { View, FlatList, BackHandler } from "react-native";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -29,6 +29,17 @@ const Main = () => {
       setAPICallFinish(true);
     };
     callMainScreenContent();
+  }, []);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        BackHandler.exitApp();
+        return true;
+      }
+    );
+    return () => backHandler.remove();
   }, []);
 
   return (

@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, View, Image, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 
 import { container } from "../styles/styles";
@@ -59,13 +59,24 @@ const Authentication = ({ navigation }) => {
   };
 
   const signupHandler = async () => {
-    await SignUpCall(signUpInputData);
-    navigationHandler();
+    const res = await SignUpCall(signUpInputData);
+    if (res.status === "success") {
+      navigationHandler();
+    } else {
+      Alert.alert("Error", "Wrong Credential");
+    }
   };
 
   const logInHandler = async () => {
-    await LogInCall(logInInputData);
-    navigationHandler();
+    if (logInInputData.email !== "" && logInInputData.password !== "") {
+      const res = await LogInCall(logInInputData);
+
+      if (res.status === "success") {
+        navigationHandler();
+      } else {
+        Alert.alert("Error", "Wrong Credential");
+      }
+    }
   };
 
   const navigationHandler = () => {
