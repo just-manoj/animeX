@@ -14,6 +14,7 @@ const App = () => {
   const [fontsLoaded] = useFonts({
     PoetsenOne: require("./assets/fonts/PoetsenOne-Regular.ttf"),
     sfPro: require("./assets/fonts/SFPro-Regular.otf"),
+    sfProMed: require("./assets/fonts/SFProMedium.otf"),
     cilokThere: require("./assets/fonts/Cilok-There.otf"),
     cheria: require("./assets/fonts/Cheria-DEMO.otf"),
     capriola: require("./assets/fonts/Capriola-Regular.ttf"),
