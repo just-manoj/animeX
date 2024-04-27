@@ -9,12 +9,11 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-
 import { AntDesign } from "@expo/vector-icons";
 
 const EpisodeDetail = (props) => {
   const {
-    id,
+    _id,
     title,
     description,
     videoUrl,
@@ -22,6 +21,8 @@ const EpisodeDetail = (props) => {
     noOfEpisode,
     thumnailUrl,
     onStopPromoPlayer,
+    isInFavList,
+    onChangeFavList,
   } = props || {};
 
   const navigation = useNavigation();
@@ -103,6 +104,12 @@ const EpisodeDetail = (props) => {
           onPress={() => {
             setIsExpand(!isExpand);
           }}
+          style={{
+            width: "100%",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
         >
           <Text
             style={styles.description}
@@ -110,6 +117,14 @@ const EpisodeDetail = (props) => {
           >
             {description}
           </Text>
+          <AntDesign
+            name={isInFavList ? "star" : "staro"}
+            size={27}
+            color="#ffffff"
+            onPress={() => {
+              onChangeFavList(_id);
+            }}
+          />
         </Pressable>
       </View>
     </View>
@@ -151,6 +166,7 @@ const styles = StyleSheet.create({
     fontSize: 15.5,
   },
   description: {
+    width: "90%",
     marginTop: 5,
     color: "white",
     fontFamily: "sfPro",

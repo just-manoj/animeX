@@ -13,7 +13,11 @@ import { Ionicons } from "@expo/vector-icons";
 import Header from "../components/AnimeDetails/Header";
 import AnimeDetail from "../components/AnimeDetails/AnimeDetail";
 import EpisodeDetail from "../components/AnimeDetails/EpisodeDetail";
-import { getAnimeData, postAnimeToWishlist } from "../util/AnimeDetail";
+import {
+  getAnimeData,
+  postAnimeToWishlist,
+  postEpisodeToFavlist,
+} from "../util/AnimeDetail";
 import { getAnimeEpisodes } from "../util/Anime";
 import Loading from "../components/common/Loading";
 
@@ -106,6 +110,19 @@ const AnimeDetails = ({ route, navigation }) => {
     }
   };
 
+  const favlistHandler = async (episodeId) => {
+    const res = await postEpisodeToFavlist(episodeId);
+    if (res.status === "success") {
+      setEpisodeData(
+        episodeData.map((preEpisodeData) => {
+          return preEpisodeData._id === episodeId
+            ? { ...preEpisodeData, isInFavList: !preEpisodeData.isInFavList }
+            : preEpisodeData;
+        })
+      );
+    }
+  };
+
   return isMainContentLoading ? (
     <Loading />
   ) : (
@@ -180,6 +197,7 @@ const AnimeDetails = ({ route, navigation }) => {
                 {...data}
                 key={data._id}
                 onStopPromoPlayer={stopPromoPlayerHandler}
+                onChangeFavList={favlistHandler}
               />
             );
           })}

@@ -57,3 +57,33 @@ export const postAnimeToWishlist = async (animeId) => {
     return { message: "Not Authtendicated..!" };
   }
 };
+
+export const postEpisodeToFavlist = async (episodeId) => {
+  let authToken;
+  try {
+    authToken = await AsyncStorage.getItem("Auth-Token");
+  } catch (error) {
+    console.log("There is No Token Here..", error);
+    return { status: "failed", message: "There is No Token Here" };
+  }
+
+  try {
+    const responses = (
+      await axios.put(
+        `http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/user/FavList`,
+        {
+          episodeId: episodeId,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + authToken,
+          },
+        }
+      )
+    ).data;
+
+    return responses;
+  } catch (error) {
+    return { message: "Not Authtendicated..!" };
+  }
+};
