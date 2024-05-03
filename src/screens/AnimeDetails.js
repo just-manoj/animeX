@@ -134,7 +134,7 @@ const AnimeDetails = ({ route, navigation }) => {
               setIsTabbed(true);
               setTimeout(() => {
                 setIsTabbed(false);
-              }, 3000);
+              }, 1500);
             }}
           >
             <Video
@@ -164,7 +164,7 @@ const AnimeDetails = ({ route, navigation }) => {
                   setIsPromoPlaying(!isPromoPlaying);
                   setTimeout(() => {
                     setIsTabbed(false);
-                  }, 3000);
+                  }, 1500);
                 }}
               />
             </View>

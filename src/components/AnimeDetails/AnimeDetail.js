@@ -18,7 +18,6 @@ const AnimeDetail = (props) => {
     onChangeWishlist,
   } = props || {};
   const [isExpand, setIsExpand] = useState(false);
-  // const [isInWishList, setIsInWishList] = useState(false);
 
   const SeasonComponents = (season) => {
     const seasonComponents = [];

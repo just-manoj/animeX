@@ -13,6 +13,7 @@ import { initializeAnimeContent } from "../redux/allAnimeContent";
 
 const Main = () => {
   const [AnimeCoverData, setAnimeCoverData] = useState([]);
+  const [bannerImageData, setBannerImageData] = useState([]);
   const [APICallFinish, setAPICallFinish] = useState(false);
 
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ const Main = () => {
       const getBannerImages = await getBanner();
       const mainScreenContent = await getMainScreenContent();
       setAnimeCoverData(mainScreenContent);
-
+      setBannerImageData([...getBannerImages]);
       dispatch(initializeBannerImages({ bannerImages: getBannerImages }));
       dispatch(initializeAnimeContent({ allAnimeContent: mainScreenContent }));
 
@@ -50,7 +51,7 @@ const Main = () => {
           <FlatList
             data={AnimeCoverData}
             keyExtractor={(item) => item.id}
-            ListHeaderComponent={<Banner />}
+            ListHeaderComponent={<Banner allBannerImages={bannerImageData} />}
             renderItem={({ item }) => (
               <AnimeHorizontalList
                 animeCategory={item.category}

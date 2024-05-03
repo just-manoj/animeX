@@ -23,6 +23,9 @@ const EpisodeDetail = (props) => {
     onStopPromoPlayer,
     isInFavList,
     onChangeFavList,
+    isFavList,
+    anime,
+    noOfSeason,
   } = props || {};
 
   const navigation = useNavigation();
@@ -42,7 +45,9 @@ const EpisodeDetail = (props) => {
   };
 
   const playerScreenHandler = () => {
-    onStopPromoPlayer();
+    if (!isFavList) {
+      onStopPromoPlayer();
+    }
     navigation.navigate("AnimePlayer", {
       videoUrl: videoUrl,
     });
@@ -68,6 +73,12 @@ const EpisodeDetail = (props) => {
   };
   return (
     <View style={styles.container}>
+      {isFavList && (
+        <View style={[styles.titleContainer, { marginBottom: 5 }]}>
+          <Text style={[styles.title]}>{anime}</Text>
+          <Text style={[styles.duration]}>S{noOfSeason}</Text>
+        </View>
+      )}
       <TouchableOpacity onPress={playerScreenHandler}>
         <Image
           source={{
@@ -96,7 +107,9 @@ const EpisodeDetail = (props) => {
       <View style={{ marginTop: 10 }}>
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={1}>
-            {noOfEpisode}. {title}
+            {isFavList
+              ? `Ep${noOfEpisode} ${title}`
+              : `${noOfEpisode}. ${title}`}
           </Text>
           <Text style={styles.duration}>{displayDuration(duration)}</Text>
         </View>
@@ -104,12 +117,7 @@ const EpisodeDetail = (props) => {
           onPress={() => {
             setIsExpand(!isExpand);
           }}
-          style={{
-            width: "100%",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+          style={styles.descriptionContainer}
         >
           <Text
             style={styles.description}
@@ -121,6 +129,7 @@ const EpisodeDetail = (props) => {
             name={isInFavList ? "star" : "staro"}
             size={27}
             color="#ffffff"
+            style={{ marginTop: 5 }}
             onPress={() => {
               onChangeFavList(_id);
             }}
@@ -164,6 +173,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "sfProMed",
     fontSize: 15.5,
+  },
+  descriptionContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
   },
   description: {
     width: "90%",
