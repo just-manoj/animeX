@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import AnimeCoverImage from "../common/AnimeCoverImage";
 
 const AnimeHorizontalList = (props) => {
-  const { animeCategory, animeList } = props;
+  const { animeCategory, animeList, isSearchVisible } = props || {};
   const navigation = useNavigation();
 
   const goToCategoryScreen = () => {
@@ -22,9 +22,11 @@ const AnimeHorizontalList = (props) => {
     <View style={styles.container}>
       <View style={styles.categoryContainer}>
         <Text style={styles.categoryTitle}>{animeCategory}</Text>
-        <TouchableOpacity onPress={goToCategoryScreen}>
-          <Text style={styles.seeAll}>See All</Text>
-        </TouchableOpacity>
+        {isSearchVisible === false && (
+          <TouchableOpacity onPress={goToCategoryScreen}>
+            <Text style={styles.seeAll}>See All</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <FlatList
         data={animeList}

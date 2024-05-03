@@ -5,27 +5,26 @@ import { useNavigation } from "@react-navigation/native";
 
 import SearchBar from "../common/SearchBar";
 
-const Header = () => {
+const Header = (props) => {
+  const {
+    onSearchBarHandler,
+    isSearchVisible,
+    searchInputData,
+    onChangeInputData,
+  } = props || {};
   const navigation = useNavigation();
-  const [isItSearchBar, setItIsSearchBar] = useState(false);
-  const [searchInputData, setSearchInputData] = useState("");
-
-  const changeHeaderType = () => {
-    clearSearchInputData();
-    setItIsSearchBar(!isItSearchBar);
-  };
-
-  const changeSearchInputData = (inp) => {
-    setSearchInputData(inp);
-  };
 
   const clearSearchInputData = () => {
-    setSearchInputData("");
+    onChangeInputData("");
+  };
+
+  const changeHeaderType = () => {
+    onSearchBarHandler();
   };
 
   return (
     <View style={styles.container}>
-      {isItSearchBar ? (
+      {isSearchVisible ? (
         <>
           <View style={styles.searchBarHeader}>
             <View style={styles.container}>
@@ -42,7 +41,7 @@ const Header = () => {
             <View style={styles.searchBarContainer}>
               <SearchBar
                 searchInputData={searchInputData}
-                changeSearchInputData={changeSearchInputData}
+                changeSearchInputData={onChangeInputData}
                 placeholder="Search Anime Series..."
                 clearSearchInputData={clearSearchInputData}
               />
