@@ -16,7 +16,7 @@ export const getBanner = async () => {
         Authorization: "Bearer " + authToken,
       },
     })
-  ).data.images;
+  ).data;
 
   return responses;
 };

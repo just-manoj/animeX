@@ -46,10 +46,16 @@ const Profile = (props) => {
     <View style={styles.profileContainer}>
       <View>
         <View style={styles.profileImageContainer}>
-          <Image
-            source={require("../../../assets/profile/1692017424178-thiyagu.jpeg")}
-            style={styles.profileImage}
-          />
+          <View style={styles.profileImage}>
+            <Text
+              style={{
+                color: "#ff64d8",
+                fontSize: 80,
+              }}
+            >
+              {name[0]}
+            </Text>
+          </View>
           <Text style={styles.name}>{name}</Text>
         </View>
         <View>
@@ -163,6 +169,8 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     borderColor: "#43bdbd",
     borderWidth: 4,
+    justifyContent: "center",
+    alignItems: "center",
   },
   horizontalLine: {
     borderBottomColor: "rgba(115, 117, 118,0.5)",
@@ -174,10 +182,6 @@ const styles = StyleSheet.create({
     fontFamily: "lucidaGrandeBold",
     fontWeight: "600",
     paddingTop: 5,
-  },
-  detailsContainer: {
-    paddingTop: 50,
-    paddingLeft: 30,
   },
   label: {
     fontSize: 15,

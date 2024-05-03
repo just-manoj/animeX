@@ -56,8 +56,10 @@ const Main = () => {
       const getBannerImages = await getBanner();
       const mainScreenContent = await getMainScreenContent();
       setAnimeCoverData(mainScreenContent);
-      setBannerImageData([...getBannerImages]);
-      dispatch(initializeBannerImages({ bannerImages: getBannerImages }));
+      setBannerImageData([...getBannerImages.images]);
+      dispatch(
+        initializeBannerImages({ bannerImages: getBannerImages.images })
+      );
       dispatch(initializeAnimeContent({ allAnimeContent: mainScreenContent }));
 
       setAPICallFinish(true);

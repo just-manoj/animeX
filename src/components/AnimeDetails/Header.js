@@ -28,7 +28,7 @@ const Header = (props) => {
             navigation.goBack();
           }}
         />
-        <Entypo name="dots-three-vertical" size={29} color="#ffffff" />
+        {/* <Entypo name="dots-three-vertical" size={29} color="#ffffff" /> */}
       </View>
       <View style={styles.playContainer}>
         <TouchableOpacity onPress={playPromoHandler}>
