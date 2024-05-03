@@ -7,6 +7,9 @@ import LogIn from "../components/authentication/LogIn";
 import SignUp from "../components/authentication/SignUp";
 import { SignUpCall, LogInCall, isAuthenticated } from "../util/Auth";
 import Loading from "../components/common/Loading";
+import WelcomeImage from "../components/authentication/WelcomeImage";
+import OTPVerification from "../components/Profile/OTPVerification";
+import ResetPassword from "../components/Profile/ResetPassword";
 
 const Authentication = ({ navigation, route }) => {
   const { againLogin } = route.params || {};
@@ -28,8 +31,9 @@ const Authentication = ({ navigation, route }) => {
   const [signUpInputData, setSignUpInputData] = useState({
     ...defaultSignInData,
   });
-  const [isLogIn, setIsLogIn] = useState(true);
+  const [screenName, setScreenName] = useState("LogIn");
   const [isAuth, setIsAuth] = useState(true);
+  const [isbuttonPressed, setIsButtonPressed] = useState(false);
 
   const updateLogInInputValues = (key, value) => {
     setlogInInputData((existingInputValues) => {
@@ -49,12 +53,19 @@ const Authentication = ({ navigation, route }) => {
     });
   };
 
-  const changeLogInMode = () => {
-    emptyInputData();
-    setIsLogIn(!isLogIn);
+  const changeLogInMode = (screen) => {
+    if (screen !== "OTP" && screen !== "ResetPassword") {
+      emptyInputData();
+    }
+    if (screen === "OTP" && logInInputData.email === "") {
+      return;
+    }
+    setIsButtonPressed(false);
+    setScreenName(screen);
   };
 
   const emptyInputData = () => {
+    setIsButtonPressed(false);
     setlogInInputData({
       ...defaultLogInData,
     });
@@ -65,15 +76,27 @@ const Authentication = ({ navigation, route }) => {
   };
 
   const signupHandler = async () => {
-    const res = await SignUpCall(signUpInputData);
-    if (res.status === "success") {
-      navigationHandler();
+    setIsButtonPressed(true);
+    if (
+      signUpInputData.email !== "" &&
+      signUpInputData.password !== "" &&
+      signUpInputData.birthDayDate !== "" &&
+      signUpInputData.password !== "" &&
+      signUpInputData.repeatPassword !== ""
+    ) {
+      const res = await SignUpCall(signUpInputData);
+      if (res.status === "success") {
+        navigationHandler();
+      } else {
+        Alert.alert("Error", "Wrong Credential");
+      }
     } else {
-      Alert.alert("Error", "Wrong Credential");
+      Alert.alert("Error", "Enter All Fields.!");
     }
   };
 
   const logInHandler = async () => {
+    setIsButtonPressed(true);
     if (logInInputData.email !== "" && logInInputData.password !== "") {
       const res = await LogInCall(logInInputData);
 
@@ -81,13 +104,19 @@ const Authentication = ({ navigation, route }) => {
         setlogInInputData;
         navigationHandler();
       } else {
-        Alert.alert("Error", "Wrong Credential");
+        Alert.alert("Error", "Wrong Credential", [
+          { text: "OK", onPress: () => emptyInputData() },
+        ]);
       }
+    } else {
+      Alert.alert("Error", "Enter All Fields.!");
     }
   };
 
   const navigationHandler = () => {
     navigation.navigate("main");
+    setIsButtonPressed(false);
+    setScreenName("LogIn");
   };
 
   useEffect(() => {
@@ -120,7 +149,7 @@ const Authentication = ({ navigation, route }) => {
       emptyInputData();
       if (againLogin) {
         setIsAuth(false);
-        setIsLogIn(true);
+        setScreenName("LogIn");
       }
       return () => {};
     }, [againLogin])
@@ -132,27 +161,42 @@ const Authentication = ({ navigation, route }) => {
         <Loading />
       ) : (
         <View style={container}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={require("../../assets/banners/welcome.jpg")}
-              style={styles.bannerImage}
-            />
-          </View>
-          {isLogIn ? (
-            <LogIn
-              logInInput={logInInputData}
-              changeInputValue={updateLogInInputValues}
+          {screenName === "LogIn" ? (
+            <>
+              <WelcomeImage />
+              <LogIn
+                logInInput={logInInputData}
+                changeInputValue={updateLogInInputValues}
+                changeLogInMode={changeLogInMode}
+                onPress={logInHandler}
+                isbuttonPressed={isbuttonPressed}
+              />
+            </>
+          ) : screenName === "SignUp" ? (
+            <>
+              <WelcomeImage />
+              <SignUp
+                signUpInput={signUpInputData}
+                changeInputValue={updateSignUpInputValues}
+                changeLogInMode={changeLogInMode}
+                onPress={signupHandler}
+                isbuttonPressed={isbuttonPressed}
+              />
+            </>
+          ) : screenName === "OTP" ? (
+            <OTPVerification
+              purpose="reset-password"
+              onChangeScreenHandler={changeLogInMode}
+              email={logInInputData.email}
               changeLogInMode={changeLogInMode}
-              onPress={logInHandler}
             />
-          ) : (
-            <SignUp
-              signUpInput={signUpInputData}
-              changeInputValue={updateSignUpInputValues}
-              changeLogInMode={changeLogInMode}
-              onPress={signupHandler}
+          ) : screenName === "ResetPassword" ? (
+            <ResetPassword
+              purpose="reset-password"
+              onChangeScreenHandler={changeLogInMode}
+              email={logInInputData.email}
             />
-          )}
+          ) : null}
         </View>
       )}
     </>
@@ -160,15 +204,3 @@ const Authentication = ({ navigation, route }) => {
 };
 
 export default Authentication;
-
-const styles = StyleSheet.create({
-  imageContainer: {
-    marginTop: 50,
-    alignItems: "center",
-  },
-  bannerImage: {
-    width: "80%",
-    height: 100,
-    resizeMode: "contain",
-  },
-});

@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Pressable,
+} from "react-native";
 import React, { useState } from "react";
 
 import InputText from "../common/InputText";
@@ -7,8 +13,13 @@ import InputPassword from "./InputPassword";
 import Footer from "./Footer";
 
 const LogIn = (props) => {
-  const { logInInput, changeInputValue, changeLogInMode, onPress } =
-    props || {};
+  const {
+    logInInput,
+    changeInputValue,
+    changeLogInMode,
+    onPress,
+    isbuttonPressed,
+  } = props || {};
 
   const emptyFocus = {
     email: false,
@@ -27,6 +38,9 @@ const LogIn = (props) => {
           style={[
             styles.inputContainer,
             isFocus.email && styles.inputTextBorder,
+            isbuttonPressed &&
+              logInInput.email === "" &&
+              styles.errorTextBorder,
           ]}
         >
           <InputText
@@ -47,6 +61,9 @@ const LogIn = (props) => {
           inputContainerStyle={[
             styles.inputContainer,
             isFocus.password && styles.inputTextBorder,
+            isbuttonPressed &&
+              logInInput.password === "" &&
+              styles.errorTextBorder,
           ]}
           inputProps={{
             value: logInInput.password,
@@ -66,7 +83,9 @@ const LogIn = (props) => {
           isPasswordHide={isPasswordHide}
         />
         <FullButton onPress={onPress}>LogIn</FullButton>
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        <Pressable onPress={() => changeLogInMode("OTP")}>
+          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        </Pressable>
       </View>
       <Footer
         changeLogInMode={changeLogInMode}
@@ -100,6 +119,13 @@ const styles = StyleSheet.create({
   },
   inputTextBorder: {
     borderColor: "#42d1e7",
+    borderTopWidth: 3.5,
+    borderRightWidth: 2,
+    borderLeftWidth: 2,
+    borderBottomWidth: 1.25,
+  },
+  errorTextBorder: {
+    borderColor: "red",
     borderTopWidth: 3.5,
     borderRightWidth: 2,
     borderLeftWidth: 2,

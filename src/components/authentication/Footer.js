@@ -6,7 +6,7 @@ const Footer = (props) => {
   return (
     <View style={styles.signUpContainer}>
       <Text style={styles.haveAccount}>{account}</Text>
-      <Pressable onPress={changeLogInMode}>
+      <Pressable onPress={() => changeLogInMode(changeMode)}>
         <Text style={styles.signUp}>{changeMode}</Text>
       </Pressable>
     </View>

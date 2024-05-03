@@ -1,12 +1,13 @@
-import { StyleSheet, Text, View, Alert } from "react-native";
+import { StyleSheet, Text, View, Alert, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 import InputPassword from "../authentication/InputPassword";
 import FullButton from "../common/FullButton";
-import { changePassword } from "../../util/user";
+import { changePassword, resetPassword } from "../../util/user";
 
 const ResetPassword = (props) => {
-  const { onChangeScreenHandler } = props || {};
+  const { onChangeScreenHandler, purpose, email } = props || {};
   const emptyFocus = {
     password: false,
     repeatPassword: false,
@@ -41,7 +42,11 @@ const ResetPassword = (props) => {
       password: "",
       repeatPassword: "",
     });
-    onChangeScreenHandler("profile");
+    if (purpose === "reset-password") {
+      onChangeScreenHandler("LogIn");
+    } else {
+      onChangeScreenHandler("profile");
+    }
   };
 
   const validatePassword = async () => {
@@ -68,8 +73,12 @@ const ResetPassword = (props) => {
         hasNumber &&
         hasSpecialChar;
       if (isValidPassword) {
-        const res = await changePassword(passwordInputData.password);
-        console.log(res);
+        let res;
+        if (purpose === "reset-password") {
+          res = await resetPassword(email, passwordInputData.password);
+        } else {
+          res = await changePassword(passwordInputData.password);
+        }
         if (res.status === "success") {
           Alert.alert("Reset Password", "PassWord Changed Succesfully", [
             {
@@ -85,86 +94,97 @@ const ResetPassword = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Reset Password</Text>
-      <InputPassword
-        inputContainerStyle={[
-          styles.inputContainer,
-          isFocus.password && styles.inputTextBorder,
-        ]}
-        inputProps={{
-          value: passwordInputData.password,
-          onChangeText: (inp) => updatePasswordInputValues("password", inp),
-          autoFocus: isFocus.password,
-          onFocus: () =>
-            setIsFocus({
-              ...emptyFocus,
-              password: true,
-            }),
-          onBlur: () => setIsFocus(emptyFocus),
-          placeholder: "Password",
-          secureTextEntry: isPasswordHide.password,
-          multiline: false,
-        }}
-        hidePassword={() =>
-          setIsPasswordHide({
-            ...isPasswordHide,
-            password: !isPasswordHide.password,
-          })
-        }
-        isPasswordHide={isPasswordHide.password}
-      />
+    <View>
+      {purpose === "reset-password" && (
+        <TouchableOpacity
+          onPress={() => {
+            onChangeScreenHandler("LogIn");
+          }}
+        >
+          <Ionicons name="arrow-back" size={28} color="white" />
+        </TouchableOpacity>
+      )}
+      <View style={styles.container}>
+        <Text style={styles.title}>Reset Password</Text>
+        <InputPassword
+          inputContainerStyle={[
+            styles.inputContainer,
+            isFocus.password && styles.inputTextBorder,
+          ]}
+          inputProps={{
+            value: passwordInputData.password,
+            onChangeText: (inp) => updatePasswordInputValues("password", inp),
+            autoFocus: isFocus.password,
+            onFocus: () =>
+              setIsFocus({
+                ...emptyFocus,
+                password: true,
+              }),
+            onBlur: () => setIsFocus(emptyFocus),
+            placeholder: "Password",
+            secureTextEntry: isPasswordHide.password,
+            multiline: false,
+          }}
+          hidePassword={() =>
+            setIsPasswordHide({
+              ...isPasswordHide,
+              password: !isPasswordHide.password,
+            })
+          }
+          isPasswordHide={isPasswordHide.password}
+        />
 
-      <InputPassword
-        inputContainerStyle={[
-          styles.inputContainer,
-          isFocus.repeatPassword && styles.inputTextBorder,
-        ]}
-        inputProps={{
-          value: passwordInputData.repeatPassword,
-          onChangeText: (inp) =>
-            updatePasswordInputValues("repeatPassword", inp),
-          autoFocus: isFocus.repeatPassword,
-          onFocus: () =>
-            setIsFocus({
-              ...isFocus,
-              repeatPassword: true,
-            }),
-          onBlur: () =>
-            setIsFocus({
-              password: false,
-              repeatPassword: false,
-            }),
-          placeholder: "Repeat Password",
-          secureTextEntry: isPasswordHide.repeatPassword,
-          multiline: false,
-        }}
-        hidePassword={() =>
-          setIsPasswordHide({
-            ...isPasswordHide,
-            repeatPassword: !isPasswordHide.repeatPassword,
-          })
-        }
-        isPasswordHide={isPasswordHide.repeatPassword}
-      />
-      <FullButton onPress={validatePassword}>Reset Password</FullButton>
-      <View style={{ marginTop: 5 }}>
-        <Text style={styles.passCriteria}>- Minimum 8 characters</Text>
-        <Text style={styles.passCriteria}>
-          - Must contain at least one uppercase letter
-        </Text>
-        <Text style={styles.passCriteria}>
-          - Must contain at least one lowercase letter
-        </Text>
-        <Text style={styles.passCriteria}>
-          - Must contain at least one number
-        </Text>
-        <Text style={styles.passCriteria}>
-          - Must contain at least one special character
-        </Text>
-        <Text style={styles.passCriteria}>
-          - Avoid using common words or patterns
-        </Text>
+        <InputPassword
+          inputContainerStyle={[
+            styles.inputContainer,
+            isFocus.repeatPassword && styles.inputTextBorder,
+          ]}
+          inputProps={{
+            value: passwordInputData.repeatPassword,
+            onChangeText: (inp) =>
+              updatePasswordInputValues("repeatPassword", inp),
+            autoFocus: isFocus.repeatPassword,
+            onFocus: () =>
+              setIsFocus({
+                ...isFocus,
+                repeatPassword: true,
+              }),
+            onBlur: () =>
+              setIsFocus({
+                password: false,
+                repeatPassword: false,
+              }),
+            placeholder: "Repeat Password",
+            secureTextEntry: isPasswordHide.repeatPassword,
+            multiline: false,
+          }}
+          hidePassword={() =>
+            setIsPasswordHide({
+              ...isPasswordHide,
+              repeatPassword: !isPasswordHide.repeatPassword,
+            })
+          }
+          isPasswordHide={isPasswordHide.repeatPassword}
+        />
+        <FullButton onPress={validatePassword}>Reset Password</FullButton>
+        <View style={{ marginTop: 5 }}>
+          <Text style={styles.passCriteria}>- Minimum 8 characters</Text>
+          <Text style={styles.passCriteria}>
+            - Must contain at least one uppercase letter
+          </Text>
+          <Text style={styles.passCriteria}>
+            - Must contain at least one lowercase letter
+          </Text>
+          <Text style={styles.passCriteria}>
+            - Must contain at least one number
+          </Text>
+          <Text style={styles.passCriteria}>
+            - Must contain at least one special character
+          </Text>
+          <Text style={styles.passCriteria}>
+            - Avoid using common words or patterns
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -174,7 +194,6 @@ export default ResetPassword;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
   },
   title: {

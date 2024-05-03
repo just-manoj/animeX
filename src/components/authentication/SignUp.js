@@ -9,8 +9,13 @@ import Footer from "./Footer";
 import { ScrollView } from "react-native";
 
 const SignUp = (props) => {
-  const { signUpInput, changeInputValue, changeLogInMode, onPress } =
-    props || {};
+  const {
+    signUpInput,
+    changeInputValue,
+    changeLogInMode,
+    onPress,
+    isbuttonPressed,
+  } = props || {};
 
   const emptyFocus = {
     name: false,
@@ -76,6 +81,9 @@ const SignUp = (props) => {
             style={[
               styles.inputContainer,
               isFocus.name && styles.inputTextBorder,
+              isbuttonPressed &&
+                signUpInput.name === "" &&
+                styles.errorTextBorder,
             ]}
           >
             <InputText
@@ -95,6 +103,9 @@ const SignUp = (props) => {
             style={[
               styles.inputContainer,
               isFocus.email && styles.inputTextBorder,
+              isbuttonPressed &&
+                signUpInput.email === "" &&
+                styles.errorTextBorder,
             ]}
           >
             <InputText
@@ -116,6 +127,9 @@ const SignUp = (props) => {
             style={[
               styles.inputContainer,
               isFocus.birthDayDate && styles.inputTextBorder,
+              isbuttonPressed &&
+                signUpInput.birthDayDate === "" &&
+                styles.errorTextBorder,
             ]}
           >
             <InputText
@@ -140,6 +154,9 @@ const SignUp = (props) => {
             inputContainerStyle={[
               styles.inputContainer,
               isFocus.password && styles.inputTextBorder,
+              isbuttonPressed &&
+                signUpInput.password === "" &&
+                styles.errorTextBorder,
             ]}
             inputProps={{
               value: signUpInput.password,
@@ -163,6 +180,9 @@ const SignUp = (props) => {
             inputContainerStyle={[
               styles.inputContainer,
               isFocus.repeatPassword && styles.inputTextBorder,
+              isbuttonPressed &&
+                signUpInput.repeatPassword === "" &&
+                styles.errorTextBorder,
             ]}
             inputProps={{
               value: signUpInput.repeatPassword,
@@ -222,6 +242,13 @@ const styles = StyleSheet.create({
   },
   inputTextBorder: {
     borderColor: "#42d1e7",
+    borderTopWidth: 3.5,
+    borderRightWidth: 2,
+    borderLeftWidth: 2,
+    borderBottomWidth: 1.25,
+  },
+  errorTextBorder: {
+    borderColor: "red",
     borderTopWidth: 3.5,
     borderRightWidth: 2,
     borderLeftWidth: 2,

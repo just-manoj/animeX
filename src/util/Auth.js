@@ -23,19 +23,22 @@ export const SignUpCall = async (signUpData) => {
 };
 
 export const LogInCall = async (logInData) => {
-  const responses = (
-    await axios({
-      method: "post",
-      url: `http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/login`,
-      data: logInData,
-    })
-  ).data;
-
   try {
-    await AsyncStorage.setItem("Auth-Token", responses.token);
-    return responses;
+    const responses = (
+      await axios({
+        method: "post",
+        url: `http://${DOMAIN}:${PORT}/${MAIN_ROUTE}/login`,
+        data: logInData,
+      })
+    ).data;
+    try {
+      await AsyncStorage.setItem("Auth-Token", responses.token);
+      return responses;
+    } catch (error) {
+      console.log(error);
+      return { status: "failed" };
+    }
   } catch (error) {
-    console.log(error);
     return { status: "failed" };
   }
 };
