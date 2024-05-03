@@ -14,9 +14,9 @@ export const SignUpCall = async (signUpData) => {
       headers: { "Content-Type": "application/json" },
     })
   ).data;
-
   try {
     await AsyncStorage.setItem("Auth-Token", responses.token);
+    return responses;
   } catch (error) {
     console.log(error);
   }
@@ -62,5 +62,15 @@ export const isAuthenticated = async () => {
     return responses;
   } catch (error) {
     return { message: "Not Authtendicated..!" };
+  }
+};
+
+export const logoutCall = async () => {
+  try {
+    await AsyncStorage.removeItem("Auth-Token");
+    return { status: "success", message: "Token removed successfully" };
+  } catch (error) {
+    console.log("Logout Error", error);
+    return { status: "failed", message: "Can't removed token" };
   }
 };

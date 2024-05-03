@@ -67,7 +67,7 @@ const SignUp = (props) => {
     return `${monthName} ${day} ${year}`;
   };
   return (
-    <ScrollView ontentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View style={styles.container}>
         <View style={styles.secondaryContainer}>
           <View style={[styles.bannerOverlay, styles.bannerImage]} />

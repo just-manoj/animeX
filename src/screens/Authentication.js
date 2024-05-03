@@ -1,5 +1,6 @@
-import { StyleSheet, View, Image, Alert } from "react-native";
+import { StyleSheet, View, Image, Alert, BackHandler } from "react-native";
 import React, { useState, useEffect } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 
 import { container } from "../styles/styles";
 import LogIn from "../components/authentication/LogIn";
@@ -7,18 +8,25 @@ import SignUp from "../components/authentication/SignUp";
 import { SignUpCall, LogInCall, isAuthenticated } from "../util/Auth";
 import Loading from "../components/common/Loading";
 
-const Authentication = ({ navigation }) => {
-  const [logInInputData, setlogInInputData] = useState({
+const Authentication = ({ navigation, route }) => {
+  const { againLogin } = route.params || {};
+
+  const defaultLogInData = {
     email: "",
     password: "",
-  });
+  };
 
-  const [signUpInputData, setSignUpInputData] = useState({
+  const defaultSignInData = {
     name: "",
     email: "",
     birthDayDate: "",
     password: "",
     repeatPassword: "",
+  };
+
+  const [logInInputData, setlogInInputData] = useState({ ...defaultLogInData });
+  const [signUpInputData, setSignUpInputData] = useState({
+    ...defaultSignInData,
   });
   const [isLogIn, setIsLogIn] = useState(true);
   const [isAuth, setIsAuth] = useState(true);
@@ -42,20 +50,18 @@ const Authentication = ({ navigation }) => {
   };
 
   const changeLogInMode = () => {
+    emptyInputData();
+    setIsLogIn(!isLogIn);
+  };
+
+  const emptyInputData = () => {
     setlogInInputData({
-      email: "",
-      password: "",
+      ...defaultLogInData,
     });
 
     setSignUpInputData({
-      name: "",
-      email: "",
-      birthDayDate: "",
-      password: "",
-      repeatPassword: "",
+      ...defaultSignInData,
     });
-
-    setIsLogIn(!isLogIn);
   };
 
   const signupHandler = async () => {
@@ -72,6 +78,7 @@ const Authentication = ({ navigation }) => {
       const res = await LogInCall(logInInputData);
 
       if (res.status === "success") {
+        setlogInInputData;
         navigationHandler();
       } else {
         Alert.alert("Error", "Wrong Credential");
@@ -96,6 +103,28 @@ const Authentication = ({ navigation }) => {
 
     authHandler();
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        BackHandler.exitApp();
+        return true;
+      }
+    );
+    return () => backHandler.remove();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      emptyInputData();
+      if (againLogin) {
+        setIsAuth(false);
+        setIsLogIn(true);
+      }
+      return () => {};
+    }, [againLogin])
+  );
 
   return (
     <>

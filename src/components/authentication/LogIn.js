@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import React, { useState } from "react";
-import { Entypo } from "@expo/vector-icons";
 
 import InputText from "../common/InputText";
 import FullButton from "../common/FullButton";

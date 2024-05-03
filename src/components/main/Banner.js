@@ -2,8 +2,9 @@ import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { ImageSlider } from "@pembajak/react-native-image-slider-banner";
 
-const Banner = () => {
-  const allBannerImages = useSelector((state) => state.banner.bannerImages);
+const Banner = (props) => {
+  const { allBannerImages } = props || {};
+  // const allBannerImages = useSelector((state) => state.banner.bannerImages);
 
   return (
     <View>
