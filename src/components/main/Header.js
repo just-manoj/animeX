@@ -1,10 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import SearchBar from "../common/SearchBar";
 
 const Header = () => {
+  const navigation = useNavigation();
   const [isItSearchBar, setItIsSearchBar] = useState(false);
   const [searchInputData, setSearchInputData] = useState("");
 
@@ -62,7 +64,11 @@ const Header = () => {
                 style={styles.icon}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("profile");
+              }}
+            >
               <FontAwesome
                 name="user-circle"
                 size={24}

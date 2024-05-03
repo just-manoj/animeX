@@ -12,15 +12,18 @@ const CategorywiseHeader = (props) => {
     changeSearchInputData,
     clearSearchInputData,
     setSearchInputData,
+    isWishList,
   } = props || {};
   const navigation = useNavigation();
 
   const [isItSearchBar, setItIsSearchBar] = useState(false);
 
   const goBack = () => {
-    setSearchInputData("");
-    setItIsSearchBar(false);
-    navigation.navigate("main");
+    if (!isWishList) {
+      setSearchInputData("");
+      setItIsSearchBar(false);
+    }
+    navigation.goBack();
   };
 
   const changeHeaderType = () => {
@@ -37,9 +40,16 @@ const CategorywiseHeader = (props) => {
           </TouchableOpacity>
           <Text style={styles.title}>{animeCategory}</Text>
         </View>
-        <TouchableOpacity onPress={changeHeaderType}>
-          <Feather name="search" size={26} color="white" style={styles.icon} />
-        </TouchableOpacity>
+        {!isWishList && (
+          <TouchableOpacity onPress={changeHeaderType}>
+            <Feather
+              name="search"
+              size={26}
+              color="white"
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       {isItSearchBar && (
         <View style={styles.searchBarContainer}>

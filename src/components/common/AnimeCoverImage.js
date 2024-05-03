@@ -4,8 +4,16 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 
 const AnimeCoverImage = (props) => {
-  const { animeName, coverUrl, VerticalStyle, animeCategory, backScreenName } =
-    props || {};
+  const {
+    animeId,
+    animeName,
+    coverUrl,
+    VerticalStyle,
+    animeCategory,
+    backScreenName,
+    isWishList,
+    onWishlistHandler,
+  } = props || {};
   const navigation = useNavigation();
 
   const goToSeasonsScreen = () => {
@@ -20,6 +28,11 @@ const AnimeCoverImage = (props) => {
     <TouchableOpacity
       style={[styles.coverContainer, VerticalStyle]}
       onPress={goToSeasonsScreen}
+      onLongPress={() => {
+        if (isWishList) {
+          onWishlistHandler(animeId, animeName);
+        }
+      }}
     >
       <Image source={{ uri: coverUrl }} style={styles.coverImage} />
       <Text style={styles.animeName} numberOfLines={1}>

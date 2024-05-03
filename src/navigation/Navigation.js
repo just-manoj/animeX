@@ -7,6 +7,7 @@ import AnimePlayer from "../screens/AnimePlayer";
 import Authentication from "../screens/Authentication";
 import UserProfile from "../screens/UserProfile";
 import AnimeDetails from "../screens/AnimeDetails";
+import FavoriteEpisode from "../screens/FavoriteEpisode";
 
 const navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -18,11 +19,12 @@ const navigation = () => {
         }}
       >
         <Stack.Screen name="Authentication" component={Authentication} />
-        <Stack.Screen name="profile" component={UserProfile} />
         <Stack.Screen name="main" component={Main} />
+        <Stack.Screen name="profile" component={UserProfile} />
         <Stack.Screen name="CategorywiseAnime" component={CategorywiseAnime} />
         <Stack.Screen name="AnimeDetails" component={AnimeDetails} />
         <Stack.Screen name="AnimePlayer" component={AnimePlayer} />
+        <Stack.Screen name="FavoriteEpisode" component={FavoriteEpisode} />
       </Stack.Navigator>
     </NavigationContainer>
   );
